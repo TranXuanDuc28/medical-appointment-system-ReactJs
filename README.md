@@ -1,68 +1,71 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Medical Appointment System - Frontend
 
-## Available Scripts
+A modern, responsive, and feature-rich medical appointment booking platform built with React. This application provides a seamless experience for patients to find doctors and book appointments, and for clinics/doctors to manage their schedules.
 
-In the project directory, you can run:
+## 🌟 Key Features
 
-### `npm start`
+- **User Authentication**: Secure login/register with support for Google and Facebook OAuth.
+- **Dynamic Scheduling**: Real-time appointment booking with doctor schedule management.
+- **Multi-language Support**: Fully internationalized with `react-intl`.
+- **Responsive Design**: Built with Bootstrap 5 and Material UI for a premium experience on all devices.
+- **Advanced Search**: Easily find doctors by specialty, department, or location.
+- **Medical Records**: Integration for viewing and managing patient health records.
+- **Real-time Notifications**: Integrated with Socket.io for instant updates.
+- **Markdown Support**: Rich text medical handbooks and descriptions.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🚀 Technology Stack
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+- **Core**: React 17
+- **State Management**: Redux, Redux Thunk, Redux Persist
+- **Styling**: Sass, Bootstrap 5, Material UI
+- **Navigation**: React Router 5
+- **Forms & Data**: Axios, React Select, Lodash
+- **Animations & UI**: Slick Carousel, React Lightbox, React Toastify
+- **Utils**: Moment.js, Day.js, JWT Decode
+- **Integrations**: Socket.io-client, Google & Facebook OAuth
 
-### `npm test`
+## 🛠️ Installation & Setup
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
+- [Node.js](https://nodejs.org/) (v14 or higher recommended)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-### `npm run build`
+### Steps
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/your-repo/medical-appointment-system.git
+   cd medical-appointment-system/frontend
+   ```
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+3. **Environment variables**:
+   Create a `.env` file in the root of the frontend folder and add your configuration (see `.env.example` for reference):
+   ```env
+   REACT_APP_BACKEND_URL=http://localhost:8080
+   ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+4. **Start the development server**:
+   ```bash
+   npm start
+   ```
+   The app will be available at [http://localhost:3000](http://localhost:3000).
 
-### `npm run eject`
+## 🏗️ Folder Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- `src/components`: Reusable UI components.
+- `src/containers`: Main page containers and business logic.
+- `src/store`: Redux actions, reducers, and store configuration.
+- `src/translations`: Multi-language dictionary files.
+- `src/assets`: Static images, fonts, and global styles.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 📄 License
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+---
+*Developed with ❤️ for better healthcare accessibility.*
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
