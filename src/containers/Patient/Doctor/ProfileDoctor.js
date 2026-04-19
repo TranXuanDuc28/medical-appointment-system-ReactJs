@@ -46,9 +46,9 @@ class DoctorInfo extends Component {
         language === LANGUAGE.VI
           ? moment.unix(+dataTime.date / 1000).format("DD/MM/YYYY")
           : moment
-              .unix(+dataTime.date / 1000)
-              .locale("en")
-              .format("MM/DD/YYYY");
+            .unix(+dataTime.date / 1000)
+            .locale("en")
+            .format("MM/DD/YYYY");
       return (
         <>
           <div>
@@ -91,9 +91,8 @@ class DoctorInfo extends Component {
           <div
             className="content-left"
             style={{
-              backgroundImage: `url(${
-                dataProfile && dataProfile.image ? dataProfile.image : ""
-              })`,
+              backgroundImage: `url(${dataProfile && dataProfile.image ? dataProfile.image : ""
+                })`,
               backgroundPosition: "center",
               backgroundSize: "cover",
               borderRadius: "50%",

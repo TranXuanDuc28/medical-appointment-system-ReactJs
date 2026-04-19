@@ -235,7 +235,7 @@ class DoctorSchedule extends Component {
       // }
       // Listen for available slots
       socket.on("SLOTS_RECEIVED", (data) => {
-        console.log("cos roi 3", data);
+        //console.log("cos roi 3", data);
         this.setState({
           allAvailableTime: data.data || [],
         });
@@ -285,9 +285,8 @@ class DoctorSchedule extends Component {
                   return (
                     <button
                       key={index}
-                      className={`${
-                        language === LANGUAGE.VI ? "btn-vie" : "btn-en"
-                      } ${item.status === "booked" ? "btn-disabled" : ""}`}
+                      className={`${language === LANGUAGE.VI ? "btn-vie" : "btn-en"
+                        } ${item.status === "booked" ? "btn-disabled" : ""}`}
                       onClick={() => this.handleClickScheduleTime(item)}
                       disabled={item.status === "booked"} // disable nếu slot đã booked
                     >

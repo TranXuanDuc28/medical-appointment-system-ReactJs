@@ -97,7 +97,7 @@ class TableManageUser extends Component {
                     <td>
                       <a
                         type="button"
-                        class="btn btn-primary mx-3 px-3"
+                        className="btn btn-primary mx-3 px-3"
                         onClick={() => {
                           this.handleEditUsers(item);
                         }}
@@ -106,7 +106,7 @@ class TableManageUser extends Component {
                       </a>
                       <a
                         type="button"
-                        class="btn btn-danger px-3"
+                        className="btn btn-danger px-3"
                         onClick={() => {
                           this.handleDeleteUsers(item);
                         }}

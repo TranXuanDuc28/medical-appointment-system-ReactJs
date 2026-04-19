@@ -16,7 +16,7 @@ class HomeFooter extends Component {
                        BookingCare.
                     </div>
                     <div className='footer-right'>
-                    <i class="fa fa-address-book" aria-hidden="true"></i>
+                    <i className="fa fa-address-book" aria-hidden="true"></i>
                     </div>                 
                   </div>               
                </div>

@@ -5,6 +5,7 @@ import * as actions from "../../store/actions";
 import Navigator from "../../components/Navigator";
 import { adminMenu, doctorMenu, cashierMenu } from "./menuApp";
 import { FormattedMessage } from "react-intl";
+import { postLogout } from "../../services/userServices";
 import _ from "lodash";
 import "./Header.scss";
 
@@ -104,7 +105,15 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    processLogout: () => dispatch(actions.processLogout()),
+    processLogout: async () => {
+      try {
+        await postLogout();
+        dispatch(actions.processLogout());
+      } catch (e) {
+        console.log(e);
+        dispatch(actions.processLogout()); // fallback
+      }
+    },
     changeLanguageRedux: (language) =>
       dispatch(actions.changeLanguage(language)),
   };

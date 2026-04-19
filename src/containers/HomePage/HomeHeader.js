@@ -91,7 +91,7 @@ class HomeHeader extends Component {
           <div className="home-header-content">
             <div className="left-content">
               <button>
-                <i class="fa fa-bars" aria-hidden="true"></i>
+                <i className="fa fa-bars" aria-hidden="true"></i>
               </button>
               <div
                 className="header-logo "
@@ -115,7 +115,7 @@ class HomeHeader extends Component {
               </div>
               <div className="right-child-content">
                 <div className="search-input">
-                  <i class="fa fa-search" aria-hidden="true"></i>
+                  <i className="fa fa-search" aria-hidden="true"></i>
                   <FormattedMessage id="homeheader.search-package">
                     {(placeholder) => (
                       <input
@@ -130,13 +130,13 @@ class HomeHeader extends Component {
             </div>
             <div className="right-content">
               <div className="schedule" onClick={this.handleLichHenClick}>
-                <i class="fa fa-calendar" aria-hidden="true"></i>
+                <i className="fa fa-calendar" aria-hidden="true"></i>
                 <div className="subs-title2">
                   <FormattedMessage id="homeheader.schedule" />
                 </div>
               </div>
               <div className="chat">
-                <i class="fa fa-comments" aria-hidden="true"></i>
+                <i className="fa fa-comments" aria-hidden="true"></i>
                 <div
                   className="subs-title2"
                   onClick={() => this.props.history.push("/chat-patient")}
@@ -145,7 +145,7 @@ class HomeHeader extends Component {
                 </div>
               </div>
               <div className="support">
-                <i class="fa fa-question-circle" aria-hidden="true"></i>
+                <i className="fa fa-question-circle" aria-hidden="true"></i>
                 <div className="subs-title2">
                   <FormattedMessage id="homeheader.support" />
                 </div>

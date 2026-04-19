@@ -148,8 +148,8 @@ class UserManage extends Component {
                                 <td>{item.gender}</td>
                                 <td>{item.positionId}</td>
                                 <td>
-                                    <a  type="button" class="btn btn-primary mx-3 px-3"  onClick={()=>{this.handleEditUsers(item)}}>Sửa</a>
-                                    <a type="button" class="btn btn-danger px-3" onClick={()=>{this.handleDeleteUsers(item)}}>Xóa</a>      
+                                    <a  type="button" className="btn btn-primary mx-3 px-3"  onClick={()=>{this.handleEditUsers(item)}}>Sửa</a>
+                                    <a type="button" className="btn btn-danger px-3" onClick={()=>{this.handleDeleteUsers(item)}}>Xóa</a>      
                                 </td>
                             </tr>    
                         )

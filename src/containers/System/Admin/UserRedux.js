@@ -186,7 +186,7 @@ class UserRedux extends Component {
     // console.log(this.state.previewImageUrl)
     return (
       <div className="container">
-        <div class="title text-center mt-5">
+        <div className="title text-center mt-5">
           <FormattedMessage id="manage-user.title" />{" "}
         </div>
         <div className="col-12 ">
@@ -195,14 +195,14 @@ class UserRedux extends Component {
             <div className="text-center mt-5">Loading...</div>
           ) : (
             <div className="container d-flex flex-wrap p-2" style={{ gap: 15 }}>
-              <div class="col-md-3">
-                <label for="inputEmail4" class="form-label">
+              <div className="col-md-3">
+                <label for="inputEmail4" className="form-label">
                   {" "}
                   <FormattedMessage id="manage-user.email" />{" "}
                 </label>
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   id="inputEmail4"
                   value={email}
                   onChange={(event) => this.handleChangeInput(event, "email")}
@@ -211,14 +211,14 @@ class UserRedux extends Component {
                   }
                 />
               </div>
-              <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">
+              <div className="col-md-3">
+                <label for="inputPassword4" className="form-label">
                   {" "}
                   <FormattedMessage id="manage-user.password" />{" "}
                 </label>
                 <input
                   type="password"
-                  class="form-control"
+                  className="form-control"
                   id="inputPassword4"
                   value={password}
                   onChange={(event) =>
@@ -229,14 +229,14 @@ class UserRedux extends Component {
                   }
                 />
               </div>
-              <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">
+              <div className="col-md-3">
+                <label for="inputPassword4" className="form-label">
                   {" "}
                   <FormattedMessage id="manage-user.phone-number" />{" "}
                 </label>
                 <input
                   type="number"
-                  class="form-control"
+                  className="form-control"
                   id="inputPassword4"
                   value={phoneNumber}
                   onChange={(event) =>
@@ -244,14 +244,14 @@ class UserRedux extends Component {
                   }
                 />
               </div>
-              <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">
+              <div className="col-md-3">
+                <label for="inputPassword4" className="form-label">
                   {" "}
                   <FormattedMessage id="manage-user.last-name" />{" "}
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="inputPassword4"
                   value={lastName}
                   onChange={(event) =>
@@ -259,14 +259,14 @@ class UserRedux extends Component {
                   }
                 />
               </div>
-              <div class="col-md-3">
-                <label for="inputPassword4" class="form-label">
+              <div className="col-md-3">
+                <label for="inputPassword4" className="form-label">
                   {" "}
                   <FormattedMessage id="manage-user.first-name" />{" "}
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="inputPassword4"
                   value={firstName}
                   onChange={(event) =>
@@ -275,26 +275,26 @@ class UserRedux extends Component {
                 />
               </div>
 
-              <div class="col-md-3">
-                <label for="inputAddress" class="form-label">
+              <div className="col-md-3">
+                <label for="inputAddress" className="form-label">
                   <FormattedMessage id="manage-user.address" />
                 </label>
                 <input
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   id="inputAddress"
                   placeholder="1234 Main St"
                   value={address}
                   onChange={(event) => this.handleChangeInput(event, "address")}
                 />
               </div>
-              <div class="col-md-3">
-                <label for="inputState" class="form-label">
+              <div className="col-md-3">
+                <label for="inputState" className="form-label">
                   <FormattedMessage id="manage-user.gender" />
                 </label>
                 <select
                   id="inputState"
-                  class="form-select"
+                  className="form-select"
                   value={gender}
                   onChange={(event) => this.handleChangeInput(event, "gender")}
                 >
@@ -311,13 +311,13 @@ class UserRedux extends Component {
                     })}
                 </select>
               </div>
-              <div class="col-md-3">
-                <label for="inputState" class="form-label">
+              <div className="col-md-3">
+                <label for="inputState" className="form-label">
                   <FormattedMessage id="manage-user.position" />
                 </label>
                 <select
                   id="inputState"
-                  class="form-select"
+                  className="form-select"
                   value={role}
                   onChange={(event) => this.handleChangeInput(event, "role")}
                 >
@@ -335,13 +335,13 @@ class UserRedux extends Component {
                 </select>
               </div>
 
-              <div class="col-md-3">
-                <label for="inputState" class="form-label">
+              <div className="col-md-3">
+                <label for="inputState" className="form-label">
                   <FormattedMessage id="manage-user.role" />
                 </label>
                 <select
                   id="inputState"
-                  class="form-select"
+                  className="form-select"
                   value={position}
                   onChange={(event) =>
                     this.handleChangeInput(event, "position")
@@ -360,9 +360,9 @@ class UserRedux extends Component {
                     })}
                 </select>
               </div>
-              <div class="col-md-12">
+              <div className="col-md-12">
                 <div className="preview-img-container">
-                  <label htmlFor="chooseImage" class="form-label">
+                  <label htmlFor="chooseImage" className="form-label">
                     <FormattedMessage id="manage-user.image" />
                   </label>
                   <input
@@ -382,9 +382,9 @@ class UserRedux extends Component {
                   ></div>
                 </div>
               </div>
-              <div class="col-12">
+              <div className="col-12">
                 <button
-                  class={
+                  className={
                     this.state.action === CRUD_ACTION.UPDATE
                       ? "btn btn-warning px-2"
                       : "btn btn-primary px-2"

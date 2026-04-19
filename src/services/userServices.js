@@ -10,6 +10,10 @@ const handlePatientChatLogin = (email, password) => {
   return axios.post("/api/login-patient-chat", { email, password });
 };
 
+const postLogout = () => {
+  return axios.post("/api/logout");
+};
+
 const handleGetAllUsers = (id) => {
   return axios.get(`/api/get_all_users?id=${id}`);
 };
@@ -127,4 +131,5 @@ export {
   postSendPayment,
   handlePatientChatLogin,
   getPatientAppointments,
+  postLogout,
 };
