@@ -2,7 +2,6 @@
   "name": "react-app-hoi-dan-it",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://nodejs-production-2367.up.railway.app",
   "dependencies": {
     "@formatjs/intl-pluralrules": "^5.4.4",
     "@formatjs/intl-relativetimeformat": "^11.4.11",
