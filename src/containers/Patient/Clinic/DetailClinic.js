@@ -34,9 +34,8 @@ class DetailClinic extends Component {
       let res = await getAllDetailClinicById({ id, lang: this.props.language });
 
       if (res && res.errCode === 0) {
-        const processed = this.processDescriptionHTML(
-          res.data?.clinicMarkdown.contentHTML
-        );
+        const contentHTML = res.data?.clinicMarkdown?.contentHTML || "";
+        const processed = this.processDescriptionHTML(contentHTML);
 
         let arrDoctorId = [];
         if (res.data?.doctorClinic?.length > 0) {

@@ -76,8 +76,7 @@ const getAllDetailHandBookById = (data) => {
 };
 const getRelatedHandBooks = (data) => {
   return axios.get(
-    `/api/get-related-handbooks?id=${data.id}&limit=${data.limit || 4}&lang=${
-      data.lang
+    `/api/get-related-handbooks?id=${data.id}&limit=${data.limit || 4}&lang=${data.lang
     }`
   );
 };
@@ -103,6 +102,18 @@ const postSendPayment = (data) => {
 };
 const getPatientAppointments = (patientId) => {
   return axios.get(`/api/get-patient-appointments?patientId=${patientId}`);
+};
+
+const getPatientHistory = (patientId) => {
+  return axios.get(`/api/get-patient-history?patientId=${patientId}`);
+};
+
+const getMedicalSummary = (data) => {
+  return axios.post(`${process.env.REACT_APP_CHATBOT_URL}/summarize_history`, data);
+};
+
+const saveFCMTokenService = (data) => {
+  return axios.post("/api/save-fcm-token", data);
 };
 
 export {
@@ -132,4 +143,7 @@ export {
   handlePatientChatLogin,
   getPatientAppointments,
   postLogout,
+  getPatientHistory,
+  getMedicalSummary,
+  saveFCMTokenService,
 };

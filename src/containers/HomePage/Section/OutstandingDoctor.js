@@ -61,8 +61,10 @@ class OutstandingDoctor extends Component {
                 {arrDoctors &&
                   arrDoctors.length > 0 &&
                   arrDoctors.map((item, index) => {
-                    let nameVi = `${item.positionData.valueVi}, ${item.firstName} ${item.lastName}`;
-                    let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
+                    let posVi = item.positionData ? `${item.positionData.valueVi}, ` : "";
+                    let posEn = item.positionData ? `${item.positionData.valueEn}, ` : "";
+                    let nameVi = `${posVi}${item.firstName} ${item.lastName}`;
+                    let nameEn = `${posEn}${item.lastName} ${item.firstName}`;
                     return (
                       <div
                         className="section-customize customize-outstanding-doctor"

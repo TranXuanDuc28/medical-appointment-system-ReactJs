@@ -56,12 +56,19 @@ export default function useChatMessages({ user, receiver }) {
       socket.off("DELETED_MSG").on("DELETED_MSG", handleDeletedMsg);
     };
 
+    const handleConnect = () => {
+      if (user) setupListeners();
+    };
+
     if (socket.connected && user) {
       setupListeners();
+    } else {
+      socket.on("connect", handleConnect);
     }
     // Cleanup khi unmount
     return () => {
       if (socket) {
+        socket.off("connect", handleConnect);
         socket.off("RECEIVED_MSG");
         socket.off("DELETED_MSG");
       }

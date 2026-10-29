@@ -21,6 +21,7 @@ class ManageSpecialty extends Component {
     super(props);
     this.state = {
       name: "",
+      description: "",
       imageBase64: "",
       contentHTML: "",
       contentMarkdown: "",
@@ -124,6 +125,7 @@ class ManageSpecialty extends Component {
       const specialtyData = {
         specialtyId: this.state.selectedOption?.value,
         name: this.state.name,
+        description: this.state.description,
         imageBase64: this.state.imageBase64,
         contentHTML: this.state.contentHTML,
         contentMarkdown: this.state.contentMarkdown,
@@ -148,6 +150,7 @@ class ManageSpecialty extends Component {
   resetForm = () => {
     this.setState({
       name: "",
+      description: "",
       imageBase64: "",
       contentHTML: "",
       contentMarkdown: "",
@@ -174,6 +177,7 @@ class ManageSpecialty extends Component {
       if (res && res.errCode === 0 && res.data) {
         this.setState({
           name: res.data.specialtyData[0].name,
+          description: res.data.specialtyMarkdown?.[0]?.description || "",
           imageBase64: res.data.image,
           contentHTML: res.data.specialtyMarkdown[0].contentHTML,
           contentMarkdown: res.data.specialtyMarkdown[0].contentMarkdown,
@@ -263,6 +267,21 @@ class ManageSpecialty extends Component {
                           ></div>
                         )}
                       </div>
+                    </div>
+                    <div className="mb-3">
+                      <label className="form-label fw-bold">
+                        <i className="fas fa-info-circle me-2"></i>
+                        Mô tả ngắn chuyên khoa (hiển thị trên thẻ card)
+                      </label>
+                      <textarea
+                        className="form-control"
+                        rows="2"
+                        placeholder="Nhập mô tả ngắn gọn về bệnh lý điều trị của chuyên khoa..."
+                        value={this.state.description}
+                        onChange={(event) =>
+                          this.handleOnchangeInput(event, "description")
+                        }
+                      />
                     </div>
                     <div className="mb-3">
                       <label className="form-label fw-bold">

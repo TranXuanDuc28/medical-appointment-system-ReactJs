@@ -86,16 +86,20 @@ export const createNewUser = (data) => {
   // console.log(data);
   return async (dispatch, getState) => {
     try {
+      let isVi = getState()?.app?.language === "vi";
       let res = await createNewUsersServices(data);
       // console.log("123",res);
       if (res && res.errCode === 0) {
-        toast.success("Thêm thành công!");
+        toast.success(isVi ? "Thêm mới người dùng thành công!" : "User created successfully!");
         dispatch(createUserSuccess(res.data));
         dispatch(getAllUser());
       } else {
+        toast.error(isVi ? (res?.errMessage || "Thêm người dùng thất bại!") : (res?.errMessage || "Failed to create user!"));
         dispatch(createUserFailed());
       }
     } catch (error) {
+      let isVi = getState()?.app?.language === "vi";
+      toast.error(isVi ? "Thêm người dùng thất bại!" : "Failed to create user!");
       dispatch(createUserFailed());
     }
   };
@@ -134,15 +138,19 @@ export const deleteUser = (idInput) => {
   // console.log(data);
   return async (dispatch, getState) => {
     try {
+      let isVi = getState()?.app?.language === "vi";
       let res = await deleteUsersServices(idInput);
       if (res && res.errCode === 0) {
-        toast.error("Xóa thành công!");
+        toast.success(isVi ? "Xóa người dùng thành công!" : "User deleted successfully!");
         dispatch(deleteUserSuccess());
         dispatch(getAllUser());
       } else {
+        toast.error(isVi ? (res?.errMessage || "Xóa người dùng thất bại!") : (res?.errMessage || "Failed to delete user!"));
         dispatch(deleteUserFailed());
       }
     } catch (error) {
+      let isVi = getState()?.app?.language === "vi";
+      toast.error(isVi ? "Xóa người dùng thất bại!" : "Failed to delete user!");
       dispatch(deleteUserFailed());
     }
   };
@@ -157,17 +165,21 @@ export const editUser = (data) => {
   // console.log(data);
   return async (dispatch, getState) => {
     try {
+      let isVi = getState()?.app?.language === "vi";
       let res = await editUsersServices(data);
       // console.log(res);
       // console.log("123",res);
       if (res && res.errCode === 0) {
-        toast.success("Cập nhập thành công!");
+        toast.success(isVi ? "Cập nhật người dùng thành công!" : "User updated successfully!");
         dispatch(editUserSuccess());
         dispatch(getAllUser());
       } else {
+        toast.error(isVi ? (res?.errMessage || "Cập nhật người dùng thất bại!") : (res?.errMessage || "Failed to update user!"));
         dispatch(editUserFailed());
       }
     } catch (error) {
+      let isVi = getState()?.app?.language === "vi";
+      toast.error(isVi ? "Cập nhật người dùng thất bại!" : "Failed to update user!");
       dispatch(editUserFailed());
     }
   };
@@ -229,18 +241,20 @@ export const getAllDoctorFailed = () => ({
 export const saveDetailInforDoctor = (data) => {
   return async (dispatch, getState) => {
     try {
+      let isVi = getState()?.app?.language === "vi";
       let res = await saveDetailInforDoctorServices(data);
 
       // console.log("123",res);
       if (res && res.errCode === 0) {
-        toast.success("Thêm thành công!");
+        toast.success(isVi ? "Lưu thông tin bác sĩ thành công!" : "Doctor info saved successfully!");
         dispatch(getInforDoctorSuccess());
       } else {
-        toast.error("Thêm thất bại!");
+        toast.error(isVi ? (res?.errMessage || "Lưu thông tin thất bại!") : (res?.errMessage || "Failed to save doctor info!"));
         dispatch(getInforDoctorFailed());
       }
     } catch (error) {
-      toast.error("Thêm thất bại!");
+      let isVi = getState()?.app?.language === "vi";
+      toast.error(isVi ? "Lưu thông tin thất bại!" : "Failed to save doctor info!");
       dispatch(getInforDoctorFailed());
     }
   };

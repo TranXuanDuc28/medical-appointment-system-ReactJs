@@ -15,7 +15,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 const renderApp = () => {
   ReactDOM.render(
     <Provider store={reduxStore}>
-      <GoogleOAuthProvider clientId="197540518658-2ghgu7rlg2neuna5asvo0ujrbjumfqo9.apps.googleusercontent.com">
+      <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
         <IntlProviderWrapper>
           <App persistor={persistor} />
         </IntlProviderWrapper>
@@ -27,3 +27,5 @@ const renderApp = () => {
 
 renderApp();
 serviceWorker.unregister();
+// Trigger dev rebuild for socket config updates
+

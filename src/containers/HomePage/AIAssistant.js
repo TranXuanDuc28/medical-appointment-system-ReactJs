@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Bot } from "lucide-react";
+import MarkdownIt from "markdown-it";
 import "./AIAssistant.scss";
+
+const md = new MarkdownIt({
+  html: true,
+  linkify: true,
+  typographer: true
+});
 
 const AIAssistant = () => {
   const [showChat, setShowChat] = useState(false);
@@ -41,13 +48,16 @@ const AIAssistant = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  const loadModel = async () => {
+  const loadModel = async (isMounted = true) => {
+    if (!isMounted) return;
     setModelStatus("loading");
     try {
       const response = await fetch(`${PATH}/load_model`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
       });
+      if (!isMounted) return;
+      
       const data = await response.json();
 
       if (response.ok) {
@@ -55,26 +65,28 @@ const AIAssistant = () => {
         console.log("DeepSeek Model (Ollama) loaded successfully");
 
         const healthResponse = await fetch(`${PATH}/health`);
-        if (healthResponse.ok) {
+        if (healthResponse.ok && isMounted) {
           const healthData = await healthResponse.json();
           console.log("Health check:", healthData);
         }
 
         const testResponse = await fetch(`${PATH}/test_api`);
-        if (testResponse.ok) {
+        if (testResponse.ok && isMounted) {
           setApiStatus("working");
-        } else if (testResponse.status === 429) {
+        } else if (testResponse.status === 429 && isMounted) {
           setApiStatus("rate_limited");
-        } else {
+        } else if (isMounted) {
           setApiStatus("error");
         }
-      } else {
+      } else if (isMounted) {
         setModelStatus("error");
         console.error("Failed to load model:", data.error);
       }
     } catch (error) {
-      setModelStatus("error");
-      console.error("Error loading model:", error);
+      if (isMounted) {
+        setModelStatus("error");
+        console.error("Error loading model:", error);
+      }
     }
   };
 
@@ -136,11 +148,21 @@ const AIAssistant = () => {
     // Tạo AbortController cho request này
     abortControllerRef.current = new AbortController();
 
+    // Lấy hoặc khởi tạo session_id độc lập cho người dùng
+    let sessionId = localStorage.getItem("ai_medical_session_id");
+    if (!sessionId) {
+      sessionId = "session_" + Date.now() + "_" + Math.random().toString(36).substring(2, 9);
+      localStorage.setItem("ai_medical_session_id", sessionId);
+    }
+
     try {
       const response = await fetch(`${PATH}/generate_stream_chatbox`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text: currentInputText }),
+        body: JSON.stringify({ 
+          text: currentInputText,
+          session_id: sessionId
+        }),
         signal: abortControllerRef.current.signal,
       });
 
@@ -452,7 +474,7 @@ const AIAssistant = () => {
                 }`}
               >
                 <div className="message-content">
-                  {message.text}
+                  <div dangerouslySetInnerHTML={{ __html: md.render(message.text) }} />
                   {/* Hiển thị cursor khi đang streaming */}
                   {!message.isComplete && message.id === streamingMessageId && (
                     <span className="streaming-cursor">▋</span>

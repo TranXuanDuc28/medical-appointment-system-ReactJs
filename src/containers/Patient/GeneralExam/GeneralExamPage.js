@@ -679,44 +679,6 @@ class GeneralExamPage extends Component {
           )}
         </div>
 
-        {/* AI Assistant Button */}
-        <div
-          className="position-fixed d-flex flex-column align-items-center"
-          style={{
-            bottom: "30px",
-            right: "30px",
-            zIndex: 1000,
-            cursor: "pointer",
-          }}
-        >
-          <div
-            className="d-flex align-items-center justify-content-center mb-2"
-            style={{
-              width: "60px",
-              height: "60px",
-              background: "linear-gradient(135deg, #4099a4, #2c7be5)",
-              borderRadius: "50%",
-              boxShadow: "0 4px 15px rgba(64, 153, 164, 0.3)",
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "scale(1.1)";
-              e.currentTarget.style.boxShadow =
-                "0 6px 20px rgba(64, 153, 164, 0.4)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "scale(1)";
-              e.currentTarget.style.boxShadow =
-                "0 4px 15px rgba(64, 153, 164, 0.3)";
-            }}
-          >
-            <i
-              className="fa fa-robot text-white"
-              style={{ fontSize: "24px" }}
-            ></i>
-          </div>
-          <span className="text-primary fw-bold small">Trợ lý AI</span>
-        </div>
       </div>
     );
   }

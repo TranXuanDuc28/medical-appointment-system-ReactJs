@@ -81,9 +81,15 @@ class DoctorInfo extends Component {
     } = this.props;
     let nameVi = "",
       nameEn = "";
-    if (dataProfile && dataProfile.positionData) {
-      nameEn = `${dataProfile.positionData.valueEn}, ${dataProfile.lastName} ${dataProfile.firstName}`;
-      nameVi = `${dataProfile.positionData.valueVi}, ${dataProfile.firstName} ${dataProfile.lastName} `;
+    if (dataProfile) {
+      let posVi = dataProfile.positionData
+        ? `${dataProfile.positionData.valueVi}, `
+        : "";
+      let posEn = dataProfile.positionData
+        ? `${dataProfile.positionData.valueEn}, `
+        : "";
+      nameEn = `${posEn}${dataProfile.lastName} ${dataProfile.firstName}`;
+      nameVi = `${posVi}${dataProfile.firstName} ${dataProfile.lastName} `;
     }
     return (
       <div className="doctor-infor-container">

@@ -916,12 +916,12 @@ class RemedyModal extends Component {
             <button
               className="btn-booking-confirm"
               onClick={this.handleSendRemedy}
-              disabled={isLoading}
+              disabled={isLoading || this.props.isProcessing}
             >
               <i className="fas fa-check mr-2"></i>
-              <FormattedMessage id="patient.booking-modal.btnConfirm" />
+              {this.props.isProcessing ? "Đang gửi..." : <FormattedMessage id="patient.booking-modal.btnConfirm" />}
             </button>
-            <button className="btn-booking-cancel" onClick={closeRemedyModal}>
+            <button className="btn-booking-cancel" onClick={closeRemedyModal} disabled={this.props.isProcessing}>
               <i className="fas fa-times mr-2"></i>
               <FormattedMessage id="patient.booking-modal.btnCancel" />
             </button>

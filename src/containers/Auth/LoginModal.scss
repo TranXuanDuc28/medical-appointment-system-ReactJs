@@ -136,24 +136,107 @@
           cursor: not-allowed;
         }
       }
-      .social-login-btn {
-        display: inline-block;
-        margin: 8px 0;
-        transform: scale(1.1); /* Thu nhỏ toàn bộ */
+      .login-divider {
+        display: flex;
+        align-items: center;
+        margin: 18px 0 14px 0;
+        color: #777;
+        font-size: 13px;
+
+        &::before,
+        &::after {
+          content: "";
+          flex: 1;
+          border-bottom: 1px solid #e5e5e5;
+        }
+
+        span {
+          padding: 0 12px;
+          font-weight: 500;
+        }
       }
 
-      .facebook-custom-btn {
-        background-color: #1877f2 !important;
-        border: none !important;
-        border-radius: 18px !important;
-        padding: 6px 12px !important;
-        font-size: 16px !important;
-        color: white !important;
-        cursor: pointer;
-      }
+      .social-login-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
 
-      .facebook-custom-btn i {
-        margin-right: 6px;
+        .google-btn-container {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          > div {
+            width: 100% !important;
+            max-width: 340px;
+            display: flex;
+            justify-content: center;
+          }
+        }
+
+        .facebook-btn-container {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+
+          .facebook-custom-btn {
+            position: relative;
+            width: 100%;
+            max-width: 340px;
+            height: 40px;
+            background-color: #1877f2;
+            color: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+            transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+            outline: none;
+            padding: 0 16px;
+
+            &:hover {
+              background-color: #166fe5;
+              box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            }
+
+            &:active {
+              transform: scale(0.99);
+            }
+
+            .facebook-icon-wrapper {
+              position: absolute;
+              left: 14px;
+              top: 50%;
+              transform: translateY(-50%);
+              width: 22px;
+              height: 22px;
+              background: #ffffff;
+              color: #1877f2;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 13px;
+
+              i {
+                margin-top: 1px;
+              }
+            }
+
+            .facebook-text {
+              text-align: center;
+              letter-spacing: 0.2px;
+            }
+          }
+        }
       }
 
       .modal-footer {

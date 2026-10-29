@@ -1,0 +1,26 @@
+.medical-summary-modal-container {
+    .modal-title {
+        color: #45c3d2;
+        font-weight: 600;
+    }
+
+    .ai-summary {
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #333;
+
+        b {
+            color: #d32f2f;
+        }
+    }
+
+    .summary-content {
+        min-height: 200px;
+        max-height: 500px;
+        overflow-y: auto;
+    }
+
+    .italic {
+        font-style: italic;
+    }
+}

@@ -14,6 +14,25 @@ instance.interceptors.response.use(
         const { data } = response;
 
         return response.data;
+    },
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response && error.response.status === 401 && !originalRequest._retry) {
+            if (originalRequest.url === '/api/refresh-token') {
+                return Promise.reject(error);
+            }
+            originalRequest._retry = true;
+            try {
+                const res = await instance.post('/api/refresh-token');
+                if (res && res.errCode === 0) {
+                    return instance(originalRequest);
+                }
+            } catch (refreshError) {
+                console.error("Refresh token expired or invalid:", refreshError);
+                return Promise.reject(refreshError);
+            }
+        }
+        return Promise.reject(error);
     }
 );
 

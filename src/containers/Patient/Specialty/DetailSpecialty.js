@@ -133,15 +133,13 @@ class DetailSpecialty extends Component {
         <div className="detail-specialty-body">
           <div className="description-specialty">
             <div className="title-detail-specialty">
-              {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty) && (
+              {dataDetailSpecialty && dataDetailSpecialty.specialtyData && dataDetailSpecialty.specialtyData.length > 0 && (
                 <h3>
-                  {language === LANGUAGES.VI
-                    ? dataDetailSpecialty.specialtyData[0].name
-                    : dataDetailSpecialty.specialtyData[0].name}
+                  {dataDetailSpecialty.specialtyData[0].name}
                 </h3>
               )}
             </div>
-            {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty) && (
+            {dataDetailSpecialty && dataDetailSpecialty.specialtyMarkdown && dataDetailSpecialty.specialtyMarkdown.length > 0 && (
               <div
                 dangerouslySetInnerHTML={{
                   __html: dataDetailSpecialty.specialtyMarkdown[0].contentHTML,
@@ -166,11 +164,28 @@ class DetailSpecialty extends Component {
             </select>
           </div>
 
+          {(!dataDetailSpecialty || !dataDetailSpecialty.id) && (
+            <div className="text-center py-5 text-muted">
+              <i className="fa fa-info-circle fa-2x mb-3 d-block text-secondary"></i>
+              <h5>Chuyên khoa không tồn tại hoặc chưa được cập nhật dữ liệu.</h5>
+            </div>
+          )}
+
+          {dataDetailSpecialty &&
+            dataDetailSpecialty.id &&
+            (!arrDoctorId || arrDoctorId.length === 0) && (
+              <div className="text-center py-4 text-muted bg-white rounded shadow-sm my-3 p-4">
+                <p className="mb-0">
+                  Hiện chưa có bác sĩ nào thuộc chuyên khoa này tại khu vực đã chọn.
+                </p>
+              </div>
+            )}
+
           {arrDoctorId &&
             arrDoctorId.length > 0 &&
             arrDoctorId.map((item, index) => {
               return (
-                <div className="each-doctor">
+                <div className="each-doctor" key={index}>
                   <div className="dt-content-left">
                     <div className="profile-doctor">
                       <ProfileDoctor

@@ -6,7 +6,7 @@ export const patientLoginSuccess = (patientInfo) => ({
   patientInfo,
 });
 export const patientLoginFail = () => ({
-  type: actionTypes.USER_LOGIN_FAIL,
+  type: actionTypes.PATIENT_LOGIN_FAIL,
 });
 
 export const patientLogout = () => (dispatch) => {

@@ -15,6 +15,7 @@ import {
 } from "../../../services/userServices";
 import moment from "moment";
 import RemedyModal from "./RemedyModal";
+import MedicalSummaryModal from "./MedicalSummaryModal";
 import { postSendRemedy } from "../../../services/userServices";
 // import LoadingOverlay from "react-loading-overlay";
 class ManagePatient extends Component {
@@ -24,8 +25,10 @@ class ManagePatient extends Component {
       currentDate: moment(new Date()).startOf("day").valueOf(),
       dataPatient: [],
       isOpenModalRemedy: false,
+      isOpenModalSummary: false,
       dataModal: {},
       isShowLoading: false,
+      isProcessing: false,
     };
   }
   async componentDidMount() {
@@ -79,6 +82,8 @@ class ManagePatient extends Component {
     });
   };
   handleBtnEnd = async (item) => {
+    if (this.state.isProcessing) return;
+    this.setState({ isProcessing: true });
     let dataModal = {
       patientId: item.patientId,
       doctorId: item.doctorId,
@@ -96,17 +101,14 @@ class ManagePatient extends Component {
 
       if (res && res.errCode === 0) {
         toast.success("Hoàn thành khám bệnh!");
-        this.setState({
-          isShowLoading: false,
-        });
         await this.getDataPatient();
       } else {
         toast.error("Đã xảy ra sự cố!");
-        this.setState({ isShowLoading: false });
       }
     } catch (error) {
       toast.error("Đã có lỗi xảy ra khi thực hiện!");
-      this.setState({ isShowLoading: false });
+    } finally {
+      this.setState({ isProcessing: false });
     }
   };
   closeRemedyModal = () => {
@@ -115,9 +117,26 @@ class ManagePatient extends Component {
       dataModal: {},
     });
   };
+  handleBtnSummary = (item) => {
+    let data = {
+      patientId: item.patientId,
+      patientName: item.patientData.firstName + " " + item.patientData.lastName,
+    };
+    this.setState({
+      isOpenModalSummary: true,
+      dataModal: data,
+    });
+  };
+  closeSummaryModal = () => {
+    this.setState({
+      isOpenModalSummary: false,
+      dataModal: {},
+    });
+  };
   sendRemedy = async (dataChild) => {
+    if (this.state.isProcessing) return;
     let { dataModal } = this.state;
-    this.setState({ isShowLoading: true });
+    this.setState({ isProcessing: true, isShowLoading: true });
     try {
       let res = await postSendRemedy({
         doctorId: dataModal.doctorId,
@@ -135,20 +154,17 @@ class ManagePatient extends Component {
 
       if (res && res.errCode === 0) {
         toast.success("Gửi hóa đơn thành công!");
-        this.setState({
-          isShowLoading: false,
-        });
         this.closeRemedyModal();
         await this.getDataPatient();
       } else {
         toast.error("Gửi hóa đơn thất bại!");
-        this.setState({ isShowLoading: false });
       }
     } catch (error) {
       console.error("Error sending remedy:", error);
 
       toast.error("Đã có lỗi xảy ra khi gửi hóa đơn!");
-      this.setState({ isShowLoading: false });
+    } finally {
+      this.setState({ isProcessing: false, isShowLoading: false });
     }
   };
 
@@ -218,17 +234,26 @@ class ManagePatient extends Component {
                               <button
                                 className="btn btn-primary"
                                 onClick={() => this.handleBtnConfirm(item)}
+                                disabled={this.state.isProcessing}
                               >
-                                Kê khai!
+                                {this.state.isProcessing ? "Đang xử lý..." : "Kê khai!"}
                               </button>
                             ) : item.statusId === "S3" ? (
                               <button
-                                className="text-success"
+                                className="btn btn-success"
                                 onClick={() => this.handleBtnEnd(item)}
+                                disabled={this.state.isProcessing}
+                                style={{ color: "#fff" }}
                               >
-                                Kết thúc khám bệnh
+                                {this.state.isProcessing ? "Đang xử lý..." : "Kết thúc khám bệnh"}
                               </button>
                             ) : null}
+                            <button
+                              className="btn btn-info ml-2"
+                              onClick={() => this.handleBtnSummary(item)}
+                            >
+                              Tóm tắt bệnh án
+                            </button>
                           </td>
                         </tr>
                       );
@@ -251,8 +276,14 @@ class ManagePatient extends Component {
             dataModal={dataModal}
             closeRemedyModal={this.closeRemedyModal}
             sendRemedy={this.sendRemedy}
+            isProcessing={this.state.isProcessing}
           />
         )}
+        <MedicalSummaryModal
+          isOpenModal={this.state.isOpenModalSummary}
+          dataModal={dataModal}
+          closeSummaryModal={this.closeSummaryModal}
+        />
         {/* </LoadingOverlay> */}
       </>
     );

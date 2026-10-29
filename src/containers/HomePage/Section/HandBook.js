@@ -81,7 +81,9 @@ class HandBook extends Component {
                         }}
                       ></div>
                       <div className="title-section">
-                        {item.handbookData[0].title}
+                        {item.handbookData && item.handbookData.length > 0 
+                          ? item.handbookData[0].title 
+                          : "Cẩm nang sức khỏe"}
                       </div>
                     </div>
                   ))}

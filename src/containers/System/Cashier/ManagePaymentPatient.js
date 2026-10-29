@@ -34,6 +34,7 @@ class ManagePaymentPatient extends Component {
   async componentDidMount() {
     const { user } = this.props;
     // Connect user to Socket.IO
+    if (!socket.connected) socket.connect();
     socket.emit("ADD_USER", {
       id: user.id,
       firstName: user.firstName,

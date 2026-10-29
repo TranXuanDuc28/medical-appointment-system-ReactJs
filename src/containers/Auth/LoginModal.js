@@ -54,7 +54,7 @@ const LoginModal = ({ onClose, onLoginSuccess, patientLoginSuccess }) => {
     }
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleLogin();
     }
@@ -63,34 +63,49 @@ const LoginModal = ({ onClose, onLoginSuccess, patientLoginSuccess }) => {
   // Xử lý đăng nhập Google thành công
   const handleGoogleSuccess = (credentialResponse) => {
     if (credentialResponse.credential) {
-      const decoded = jwtDecode(credentialResponse.credential);
-      const nameParts = decoded.given_name.trim().split(" ");
-      const firstName = nameParts.slice(0, -1).join(" "); // bỏ chữ cuối
-      const lastName = nameParts[nameParts.length - 1]; // lấy chữ cuối
-      // decoded chứa thông tin user Google
-      // Bạn có thể gửi lên backend để xác thực hoặc lưu trực tiếp vào redux
-      patientLoginSuccess({
-        id: decoded.sub.substring(0, 5),
-        firstName: firstName,
-        lastName: lastName,
-        email: decoded.email,
-        avatar: decoded.picture,
-        isGoogle: true,
-      });
-      //console.log("Đăng nhập Google thành công:", decoded);
-      onLoginSuccess();
+      try {
+        const decoded = jwtDecode(credentialResponse.credential);
+        const fullName = (decoded.name || decoded.given_name || "").trim();
+        const nameParts = fullName.split(" ");
+        const firstName =
+          nameParts.length > 1
+            ? nameParts.slice(0, -1).join(" ")
+            : decoded.given_name || fullName;
+        const lastName =
+          decoded.family_name ||
+          (nameParts.length > 1 ? nameParts[nameParts.length - 1] : "");
+
+        patientLoginSuccess({
+          id: decoded.sub ? decoded.sub.substring(0, 5) : Date.now().toString(),
+          firstName: firstName,
+          lastName: lastName,
+          email: decoded.email,
+          avatar: decoded.picture,
+          isGoogle: true,
+        });
+        onLoginSuccess();
+      } catch (err) {
+        console.error("Decode Google Token Error:", err);
+        setErrMessage("Đăng nhập Google thất bại!");
+      }
     }
   };
 
   const handleFacebookResponse = (response) => {
-    //console.log("Facebook response:", response);
     if (response && !response.error) {
+      const fullName = (response.name || "").trim();
+      const nameParts = fullName.split(" ");
+      const firstName =
+        nameParts.length > 1 ? nameParts.slice(0, -1).join(" ") : fullName;
+      const lastName =
+        nameParts.length > 1 ? nameParts[nameParts.length - 1] : "";
+
       patientLoginSuccess({
-        id: response.id,
-        firstName: response.name.split(" ").slice(0, -1).join(" "),
-        lastName: response.name.split(" ").pop(),
-        email: response.email,
-        avatar: response.picture.data.url,
+        id: response.id || Date.now().toString(),
+        firstName: firstName,
+        lastName: lastName,
+        email: response.email || "",
+        avatar: response.picture && response.picture.data ? response.picture.data.url : "",
         isFacebook: true,
       });
       onLoginSuccess();
@@ -122,7 +137,7 @@ const LoginModal = ({ onClose, onLoginSuccess, patientLoginSuccess }) => {
                   onChange={(e) =>
                     handleInputChange("username", e.target.value)
                   }
-                  onKeyPress={handleKeyPress}
+                  onKeyDown={handleKeyDown}
                 />
               </div>
 
@@ -137,7 +152,7 @@ const LoginModal = ({ onClose, onLoginSuccess, patientLoginSuccess }) => {
                     onChange={(e) =>
                       handleInputChange("password", e.target.value)
                     }
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyDown}
                   />
                   <span
                     className="password-toggle"
@@ -162,25 +177,49 @@ const LoginModal = ({ onClose, onLoginSuccess, patientLoginSuccess }) => {
                 {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
               </button>
 
-              <div style={{ textAlign: "center", margin: "16px 0" }}>
-                <div className="social-login-btn">
+              <div className="login-divider">
+                <span>Hoặc đăng nhập bằng</span>
+              </div>
+
+              <div className="social-login-wrapper">
+                <div className="google-btn-container">
                   <GoogleLogin
                     onSuccess={handleGoogleSuccess}
                     onError={() => setErrMessage("Đăng nhập Google thất bại")}
-                    size="large" // 'small' hoặc 'medium' tùy thư viện bạn dùng
-                    shape="pill" // bo tròn nếu thư viện hỗ trợ
+                    size="large"
+                    shape="pill"
+                    width="340"
+                    text="signin_with"
+                    logo_alignment="left"
                   />
                 </div>
 
-                <div className="social-login-btn">
+                <div className="facebook-btn-container">
                   <FacebookLogin
-                    appId="2514015902296614"
+                    appId={
+                      process.env.REACT_APP_FACEBOOK_APP_ID
+                    }
                     autoLoad={false}
                     fields="name,email,picture"
-                    onSuccess={handleFacebookResponse}
-                    onFail={(error) =>
-                      console.log("Facebook Login Failed:", error)
-                    }
+                    onProfileSuccess={handleFacebookResponse}
+                    onFail={(error) => {
+                      console.log("Facebook Login Failed:", error);
+                      setErrMessage("Đăng nhập Facebook thất bại");
+                    }}
+                    render={({ onClick }) => (
+                      <button
+                        type="button"
+                        className="facebook-custom-btn"
+                        onClick={onClick}
+                      >
+                        <span className="facebook-icon-wrapper">
+                          <i className="fab fa-facebook-f"></i>
+                        </span>
+                        <span className="facebook-text">
+                          Đăng nhập bằng Facebook
+                        </span>
+                      </button>
+                    )}
                   />
                 </div>
               </div>

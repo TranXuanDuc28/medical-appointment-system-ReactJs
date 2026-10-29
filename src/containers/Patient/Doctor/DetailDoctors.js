@@ -58,9 +58,15 @@ class DetailDoctors extends Component {
     let language = this.props.language;
     let nameVi = "",
       nameEn = "";
-    if (detailDoctorbyId && detailDoctorbyId.positionData) {
-      nameEn = `${detailDoctorbyId.positionData.valueEn}, ${detailDoctorbyId.lastName} ${detailDoctorbyId.firstName}`;
-      nameVi = `${detailDoctorbyId.positionData.valueVi}, ${detailDoctorbyId.firstName} ${detailDoctorbyId.lastName} `;
+    if (detailDoctorbyId) {
+      let posVi = detailDoctorbyId.positionData
+        ? `${detailDoctorbyId.positionData.valueVi}, `
+        : "";
+      let posEn = detailDoctorbyId.positionData
+        ? `${detailDoctorbyId.positionData.valueEn}, `
+        : "";
+      nameEn = `${posEn}${detailDoctorbyId.lastName} ${detailDoctorbyId.firstName}`;
+      nameVi = `${posVi}${detailDoctorbyId.firstName} ${detailDoctorbyId.lastName} `;
     }
     // URL public từ ngrok (ví dụ bạn chạy ngrok http 3000)
     const NGROK_URL = "https://b2243b14e432.ngrok-free.app";
