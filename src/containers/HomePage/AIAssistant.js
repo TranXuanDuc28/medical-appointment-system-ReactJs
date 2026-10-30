@@ -99,7 +99,13 @@ const AIAssistant = () => {
     const handleBeforeUnload = () => {
       try {
         if (messagesRef.current && messagesRef.current.length > 0) {
-          localStorage.setItem("ai_medical_messages", JSON.stringify(messagesRef.current));
+          // Chỉ lưu các tin nhắn hợp lệ có nội dung và đánh dấu hoàn thành
+          const cleanMsgs = messagesRef.current
+            .filter((m) => m && typeof m.text === "string" && m.text.trim().length > 0)
+            .map((m) => ({ ...m, isComplete: true }));
+          if (cleanMsgs.length > 0) {
+            localStorage.setItem("ai_medical_messages", JSON.stringify(cleanMsgs));
+          }
         }
       } catch (e) {}
     };
@@ -404,55 +410,80 @@ const AIAssistant = () => {
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
+      let buffer = "";
+      let accumulatedText = "";
+
+      const finalizeBotMessage = (textToFinalize) => {
+        let cleanText = (textToFinalize || "").replace(
+          /https?:\/\/(?:localhost|127\.0\.0\.1):\d+\/detail-doctor\//g,
+          "/detail-doctor/"
+        );
+        cleanText = cleanText.replace(/\n+\s*Khi bấm vào(?:\s+link[^\n]*)?$/i, "").trim();
+
+        setMessages((prev) => {
+          const finalMsgs = prev.map((msg) =>
+            msg.id === botMessageId
+              ? { ...msg, text: cleanText || msg.text, isComplete: true }
+              : msg
+          );
+          messagesRef.current = finalMsgs;
+          try {
+            localStorage.setItem("ai_medical_messages", JSON.stringify(finalMsgs));
+          } catch (e) {
+            console.warn("Failed to persist final messages:", e);
+          }
+          return finalMsgs;
+        });
+        setIsLoading(false);
+        setStreamingMessageId(null);
+      };
+
+      const updateBotText = (currentText) => {
+        setMessages((prev) => {
+          const updated = prev.map((msg) =>
+            msg.id === botMessageId
+              ? { ...msg, text: currentText }
+              : msg
+          );
+          messagesRef.current = updated;
+          return updated;
+        });
+      };
 
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split("\n");
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split("\n");
+        buffer = lines.pop(); // Giữ lại phần chưa kết thúc bằng newline
 
-        for (const line of lines) {
+        for (const rawLine of lines) {
+          const line = rawLine.trim();
+          if (!line) continue;
+
           if (line.startsWith("data: ")) {
-            const data = line.slice(6);
+            const data = line.slice(6).trim();
 
             if (data === "[DONE]") {
-              setIsLoading(false);
-              setStreamingMessageId(null);
-              setMessages((prev) => {
-                const finalMsgs = prev.map((msg) =>
-                  msg.id === botMessageId ? { ...msg, isComplete: true } : msg
-                );
-                messagesRef.current = finalMsgs;
-                try {
-                  localStorage.setItem("ai_medical_messages", JSON.stringify(finalMsgs));
-                } catch (e) {}
-                return finalMsgs;
-              });
+              finalizeBotMessage(accumulatedText);
               return;
             }
 
             try {
               const parsed = JSON.parse(data);
 
-              if (parsed.type === "chunk") {
-                // Append text to the streaming message
-                setMessages((prev) => {
-                  const updated = prev.map((msg) =>
-                    msg.id === botMessageId
-                      ? { ...msg, text: msg.text + parsed.content }
-                      : msg
-                  );
-                  messagesRef.current = updated;
-                  return updated;
-                });
+              if (parsed.type === "chunk" && typeof parsed.content === "string") {
+                accumulatedText += parsed.content;
+                updateBotText(accumulatedText);
               } else if (parsed.type === "error") {
+                const errContent = parsed.content || "Lỗi khi kết nối hệ thống tư vấn.";
                 setMessages((prev) => {
                   const updated = prev.map((msg) =>
                     msg.id === botMessageId
                       ? {
                           ...msg,
-                          text: parsed.content,
+                          text: errContent,
                           isComplete: true,
                         }
                       : msg
@@ -468,11 +499,32 @@ const AIAssistant = () => {
                 return;
               }
             } catch (e) {
-              console.log("Could not parse SSE data:", data);
+              // Bỏ qua nếu chunk JSON chưa trọn vẹn
             }
           }
         }
       }
+
+      // Xử lý nốt buffer còn lại nếu có
+      if (buffer.trim()) {
+        const line = buffer.trim();
+        if (line.startsWith("data: ")) {
+          const data = line.slice(6).trim();
+          if (data === "[DONE]") {
+            finalizeBotMessage(accumulatedText);
+            return;
+          }
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.type === "chunk" && typeof parsed.content === "string") {
+              accumulatedText += parsed.content;
+            }
+          } catch (e) {}
+        }
+      }
+
+      // Finalize nếu luồng stream kết thúc mà không qua khối [DONE]
+      finalizeBotMessage(accumulatedText);
     } catch (error) {
       if (error.name === "AbortError") {
         console.log("Streaming request aborted");

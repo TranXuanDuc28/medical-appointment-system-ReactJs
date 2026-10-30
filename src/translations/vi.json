@@ -140,17 +140,35 @@
   "patient": {
     "detail-doctor": {
       "schedule": "Lịch khám",
-      "no-schedule": " Bác sĩ không có lịch hẹn trong thời gian này vui lòng chọn thời gian khác ",
+      "no-schedule": "Bác sĩ chưa có lịch khám trong ngày đã chọn. Quý khách vui lòng chọn ngày khác.",
       "choose": "Chọn ",
-      "book-free": " và đặt(miễn phí)",
-      "contact": "Liên hệ"
+      "book-free": " và đặt (Phí đặt 0đ)",
+      "contact": "Tư vấn với Bác sĩ",
+      "home": "Trang chủ",
+      "doctor": "Bác sĩ chuyên khoa",
+      "back": "Quay lại",
+      "share": "Chia sẻ",
+      "save": "Lưu bác sĩ",
+      "saved": "Đã lưu",
+      "legend-available": "Còn trống",
+      "legend-booked": "Đã có người đặt",
+      "legend-expired": "Đã qua giờ khám",
+      "slot-expired-tooltip": "Khung giờ này đã qua trong ngày",
+      "all-slots-passed": "Các khung giờ khám trong ngày hôm nay đã kết thúc. Quý khách vui lòng chọn ngày kế tiếp để đặt lịch.",
+      "consult-now": "Nhắn tin tư vấn trực tiếp",
+      "verified-doctor": "Bác sĩ uy tín - Đã xác thực",
+      "patient-reviews": "Đánh giá thực tế từ người bệnh",
+      "rating-satisfaction": "tỷ lệ người bệnh hài lòng"
     },
     "extra-infor-doctor": {
-      "text-address": "Địa chỉ khám",
+      "text-address": "Địa chỉ phòng khám",
       "price": "Giá khám: ",
       "detail": "Xem chi tiết",
-      "payment": " Người bệnh có thể thanh toán chi phí bằng hình thức:",
-      "hide-price": "Ẩn bảng giá"
+      "payment": "Hình thức thanh toán hỗ trợ:",
+      "hide-price": "Thu gọn bảng giá",
+      "insurance-title": "Bảo hiểm & Quyền lợi",
+      "insurance-desc": "Áp dụng BHYT nhà nước theo quy định (khi có giấy chuyển viện). Hỗ trợ xuất hóa đơn điện tử (VAT) để thanh toán Bảo hiểm tư nhân.",
+      "view-map": "Xem vị trí bản đồ"
     },
     "booking-modal": {
       "title": "Thông tin đặt lịch khám bệnh",

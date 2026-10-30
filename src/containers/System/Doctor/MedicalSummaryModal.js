@@ -27,23 +27,32 @@ class MedicalSummaryModal extends Component {
   handleGetSummary = async () => {
     this.setState({ isLoading: true, summary: "" });
     try {
-      let resHistory = await getPatientHistory(this.props.dataModal.patientId);
+      const patientId = this.props.dataModal?.patientId;
+      if (!patientId) {
+        this.setState({ summary: "Không tìm thấy thông tin bệnh nhân." });
+        return;
+      }
+
+      let resHistory = await getPatientHistory(patientId);
       if (resHistory && resHistory.errCode === 0) {
-        let history = resHistory.data;
+        let history = resHistory.data || [];
         this.setState({ history: history });
-        
-        if (history && history.length > 0) {
+
+        if (history.length > 0) {
           let resSummary = await getMedicalSummary({ history: history });
-          if (resSummary && resSummary.data && resSummary.data.summary) {
-            this.setState({ summary: resSummary.data.summary });
+          let summaryText = resSummary?.summary || resSummary?.data?.summary;
+          if (summaryText) {
+            this.setState({ summary: summaryText });
           } else {
             toast.error("Không thể tạo tóm tắt bệnh án.");
           }
         } else {
-          this.setState({ summary: "Bệnh nhân chưa có lịch sử khám bệnh trước đó." });
+          this.setState({
+            summary: "Bệnh nhân chưa có lịch sử khám bệnh trước đó trong hệ thống.",
+          });
         }
       } else {
-        toast.error("Không thể lấy lịch sử khám bệnh.");
+        toast.error(resHistory?.errMessage || "Không thể lấy lịch sử khám bệnh.");
       }
     } catch (e) {
       console.error(e);
@@ -53,9 +62,62 @@ class MedicalSummaryModal extends Component {
     }
   };
 
+  handleCopyToClipboard = () => {
+    const { summary } = this.state;
+    if (!summary) return;
+    const plainText = summary.replace(/\*\*/g, "").replace(/\*/g, "-");
+    navigator.clipboard.writeText(plainText).then(
+      () => toast.success("Đã sao chép tóm tắt vào bộ nhớ tạm!"),
+      () => toast.error("Không thể sao chép văn bản.")
+    );
+  };
+
+  renderFormattedSummary = (text) => {
+    if (!text) return null;
+
+    const lines = text.split("\n");
+    return lines.map((line, idx) => {
+      let trimmed = line.trim();
+      if (!trimmed) {
+        return <div key={idx} style={{ height: "6px" }} />;
+      }
+
+      const isBullet = trimmed.startsWith("*") || trimmed.startsWith("-");
+      if (isBullet) {
+        trimmed = trimmed.replace(/^[\*\-]\s*/, "");
+      }
+
+      const parts = trimmed.split(/(\*\*.*?\*\*)/g);
+      const renderedContent = parts.map((part, pIdx) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          return (
+            <strong key={pIdx}>
+              {part.slice(2, -2)}
+            </strong>
+          );
+        }
+        return part;
+      });
+
+      if (isBullet) {
+        return (
+          <div key={idx} className="summary-bullet">
+            • {renderedContent}
+          </div>
+        );
+      }
+
+      return (
+        <div key={idx} className="summary-line">
+          {renderedContent}
+        </div>
+      );
+    });
+  };
+
   render() {
     let { isOpenModal, closeSummaryModal, dataModal } = this.props;
-    let { summary, isLoading } = this.state;
+    let { summary, isLoading, history } = this.state;
 
     return (
       <Modal
@@ -72,45 +134,68 @@ class MedicalSummaryModal extends Component {
             className="close"
             aria-label="Close"
             onClick={closeSummaryModal}
-            style={{ border: 'none', background: 'none' }}
           >
-            <span aria-hidden="true" style={{ fontSize: '1.5rem' }}>×</span>
+            <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <Modal.Body style={{ position: 'relative' }}>
+
+        <Modal.Body style={{ position: "relative" }}>
           {isLoading && (
-            <div className="loading-overlay" style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
-              backgroundColor: 'rgba(255, 255, 255, 0.7)',
-              zIndex: 10,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}>
-              <ClipLoader color="#45c3d2" size={50} />
-              <div className="mt-2 text-primary">AI đang phân tích và tóm tắt...</div>
-            </div>
-          )}
-          <div className="row">
-            <div className="col-12 mb-3">
-              <h5>Bệnh nhân: <b>{dataModal.patientName}</b></h5>
-            </div>
-            <div className="col-12">
-              <div className="summary-content p-3 bg-light border rounded">
-                {summary ? (
-                  <div className="ai-summary" dangerouslySetInnerHTML={{ __html: summary.replace(/\n/g, '<br/>') }} />
-                ) : !isLoading ? (
-                  <div className="text-muted italic">Đang chuẩn bị dữ liệu...</div>
-                ) : null}
+            <div
+              className="loading-overlay"
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: "rgba(255, 255, 255, 0.75)",
+                zIndex: 10,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ClipLoader color="#0071ba" size={45} />
+              <div className="mt-2 text-primary font-weight-bold">
+                AI đang phân tích và tóm tắt...
               </div>
             </div>
+          )}
+
+          <div className="mb-3 d-flex justify-content-between align-items-center">
+            <div>
+              <span>Bệnh nhân: </span>
+              <strong className="text-primary" style={{ fontSize: "16px" }}>
+                {dataModal?.patientName || "N/A"}
+              </strong>
+              {history && history.length > 0 && (
+                <span className="text-muted ms-2" style={{ fontSize: "13px" }}>
+                  ({history.length} lần khám trước)
+                </span>
+              )}
+            </div>
+            {summary && !isLoading && (
+              <button
+                className="btn btn-sm btn-outline-secondary"
+                onClick={this.handleCopyToClipboard}
+                title="Sao chép nội dung tóm tắt"
+              >
+                Sao chép
+              </button>
+            )}
+          </div>
+
+          <div className="summary-box">
+            {summary ? (
+              <div className="ai-summary-text">{this.renderFormattedSummary(summary)}</div>
+            ) : !isLoading ? (
+              <div className="text-muted font-italic">Đang chuẩn bị dữ liệu...</div>
+            ) : null}
           </div>
         </Modal.Body>
+
         <Modal.Footer>
           <Button variant="secondary" onClick={closeSummaryModal}>
             Đóng

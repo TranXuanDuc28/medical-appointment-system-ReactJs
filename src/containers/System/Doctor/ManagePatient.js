@@ -68,13 +68,20 @@ class ManagePatient extends Component {
     );
   };
   handleBtnConfirm = (item) => {
+    const examPrice = Number(item.doctorInforData?.priceTypeData?.valueVi || 300000);
+    const patientName = `${item.patientData?.firstName || ""} ${item.patientData?.lastName || ""}`.trim();
     let data = {
+      ...item,
       patientId: item.patientId,
       doctorId: item.doctorId,
       timeType: item.timeType,
       date: item.date,
-      email: item.patientData.email,
-      patientName: item.patientData.firstName + " " + item.patientData.lastName,
+      email: item.patientData?.email || "",
+      patientName: patientName,
+      patientPhone: item.patientData?.phoneNumber || "",
+      patientAddress: item.patientData?.address || "",
+      patientGender: item.patientData?.genderData?.valueVi || "Nam",
+      examinationPrice: examPrice,
     };
     this.setState({
       isOpenModalRemedy: true,
@@ -89,8 +96,8 @@ class ManagePatient extends Component {
       doctorId: item.doctorId,
       timeType: item.timeType,
       date: item.date,
-      email: item.patientData.email,
-      patientName: item.patientData.firstName + " " + item.patientData.lastName,
+      email: item.patientData?.email,
+      patientName: item.patientData?.firstName + " " + item.patientData?.lastName,
     };
     try {
       let res = await postMedicalAppointmentStatus({
@@ -120,7 +127,7 @@ class ManagePatient extends Component {
   handleBtnSummary = (item) => {
     let data = {
       patientId: item.patientId,
-      patientName: item.patientData.firstName + " " + item.patientData.lastName,
+      patientName: item.patientData?.firstName + " " + item.patientData?.lastName,
     };
     this.setState({
       isOpenModalSummary: true,
@@ -142,13 +149,13 @@ class ManagePatient extends Component {
         doctorId: dataModal.doctorId,
         patientId: dataModal.patientId,
         timeType: dataModal.timeType,
-
         language: this.props.language,
-        // patientName: dataModal.patientName,
         prescription: dataChild.prescription,
+        examinationPrice: dataChild.examinationPrice,
+        medicinePrice: dataChild.medicinePrice,
         totalPrice: dataChild.totalPrice,
-        patientInfo: dataChild.patientInfo, // Thêm thông tin bệnh nhân
-        examInfo: dataChild.examInfo, // Thêm thông tin khám
+        patientInfo: dataChild.patientInfo,
+        examInfo: dataChild.examInfo,
       });
       console.log("check res send remedy", res);
 
@@ -185,7 +192,7 @@ class ManagePatient extends Component {
             Quản lí bệnh nhân khám bệnh
           </div>
           <div className="d-flex flex-column">
-            <div className="col-4 form-group">
+            <div className="col-4 form-group mb-3">
               <label>Chọn ngày</label>
               <DatePicker
                 onChange={this.handleOnChangeDatePicker}
@@ -194,10 +201,10 @@ class ManagePatient extends Component {
                 minDate={yesterday}
               />
             </div>
-            <div className="col-12 form-group">
-              <table className="table">
-                <tbody>
-                  <tr>
+            <div className="col-12 table-manage-patient">
+              <table className="table table-bordered table-hover">
+                <thead>
+                  <tr className="text-center">
                     <th>STT</th>
                     <th>Thời gian</th>
                     <th>Họ tên bệnh nhân</th>
@@ -206,37 +213,38 @@ class ManagePatient extends Component {
                     <th>Địa chỉ</th>
                     <th>Action</th>
                   </tr>
+                </thead>
+                <tbody>
                   {dataPatient && dataPatient.length > 0 ? (
                     dataPatient.map((item, index) => {
                       return (
                         <tr key={index}>
-                          <td>{index + 1}</td>
-                          <td>
+                          <td className="text-center">{index + 1}</td>
+                          <td className="text-center">
                             {language === LANGUAGE.VI
-                              ? item.timeTypeDataPatient.valueVi
-                              : item.timeTypeDataPatient.valueEn}
+                              ? item.timeTypeDataPatient?.valueVi
+                              : item.timeTypeDataPatient?.valueEn}
                           </td>
-                          <td>
-                            {item.patientData.firstName +
+                          <td className="font-weight-bold">
+                            {item.patientData?.firstName +
                               " " +
-                              item.patientData.lastName}
+                              item.patientData?.lastName}
                           </td>
-
-                          <td>
+                          <td className="text-center">
                             {language === LANGUAGE.VI
-                              ? item.patientData.genderData.valueVi
-                              : item.patientData.genderData.valueEn}
+                              ? item.patientData?.genderData?.valueVi
+                              : item.patientData?.genderData?.valueEn}
                           </td>
-                          <td>{item.patientData.phoneNumber}</td>
-                          <td>{item.patientData.address}</td>
-                          <td>
+                          <td className="text-center">{item.patientData?.phoneNumber}</td>
+                          <td>{item.patientData?.address}</td>
+                          <td className="text-center">
                             {item.statusId === "S2" ? (
                               <button
                                 className="btn btn-primary"
                                 onClick={() => this.handleBtnConfirm(item)}
                                 disabled={this.state.isProcessing}
                               >
-                                {this.state.isProcessing ? "Đang xử lý..." : "Kê khai!"}
+                                {this.state.isProcessing ? "Đang xử lý..." : "Khám & Kê đơn"}
                               </button>
                             ) : item.statusId === "S3" ? (
                               <button
@@ -249,8 +257,9 @@ class ManagePatient extends Component {
                               </button>
                             ) : null}
                             <button
-                              className="btn btn-info ml-2"
+                              className="btn btn-info ms-2"
                               onClick={() => this.handleBtnSummary(item)}
+                              style={{ color: "#fff" }}
                             >
                               Tóm tắt bệnh án
                             </button>
@@ -260,7 +269,7 @@ class ManagePatient extends Component {
                     })
                   ) : (
                     <tr>
-                      <td colSpan="6" className="text-center">
+                      <td colSpan="7" className="text-center py-4 text-muted">
                         Không có bệnh nhân hôm nay
                       </td>
                     </tr>

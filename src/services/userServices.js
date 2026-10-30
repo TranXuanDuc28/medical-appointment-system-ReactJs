@@ -100,6 +100,10 @@ const postMedicalAppointmentStatus = (data) => {
 const postSendPayment = (data) => {
   return axios.post("/api/send-payment", data);
 };
+
+const createPayOSPaymentLink = (data) => {
+  return axios.post("/api/payos/create-payment-link", data);
+};
 const getPatientAppointments = (patientId) => {
   return axios.get(`/api/get-patient-appointments?patientId=${patientId}`);
 };
@@ -140,6 +144,7 @@ export {
   getAllMedicines,
   postMedicalAppointmentStatus,
   postSendPayment,
+  createPayOSPaymentLink,
   handlePatientChatLogin,
   getPatientAppointments,
   postLogout,

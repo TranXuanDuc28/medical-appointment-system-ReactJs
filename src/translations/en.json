@@ -139,17 +139,35 @@
   "patient": {
     "detail-doctor": {
       "schedule": "Schedule",
-      "no-schedule": "The doctor does not have appointments during this time, please choose a time other",
+      "no-schedule": "The doctor has no available appointments on this date. Please select another date.",
       "choose": "Choose ",
-      "book-free": " and book(free)",
-      "contact": "Contact"
+      "book-free": " and book (0đ fee)",
+      "contact": "Contact Doctor",
+      "home": "Home",
+      "doctor": "Specialist Doctors",
+      "back": "Back",
+      "share": "Share",
+      "save": "Bookmark",
+      "saved": "Bookmarked",
+      "legend-available": "Available",
+      "legend-booked": "Booked",
+      "legend-expired": "Passed / Expired",
+      "slot-expired-tooltip": "This time slot has passed today",
+      "all-slots-passed": "All appointment slots for today have ended. Please choose the next available date.",
+      "consult-now": "Direct Consultation Chat",
+      "verified-doctor": "Verified Specialist",
+      "patient-reviews": "Patient Feedback & Reviews",
+      "rating-satisfaction": "satisfaction rate"
     },
     "extra-infor-doctor": {
-      "text-address": "Address of examination",
-      "price": "Examination price: ",
+      "text-address": "Clinic Address",
+      "price": "Examination fee: ",
       "detail": "See details",
-      "payment": "Patients can pay costs in the form of:",
-      "hide-price": "Hide price list"
+      "payment": "Supported payment methods:",
+      "hide-price": "Hide price details",
+      "insurance-title": "Insurance & Benefits",
+      "insurance-desc": "State Health Insurance applied with referral letter. Electronic VAT invoices provided for private insurance claims.",
+      "view-map": "View on map"
     },
     "booking-modal": {
       "title": "Information to book a medical appointment",

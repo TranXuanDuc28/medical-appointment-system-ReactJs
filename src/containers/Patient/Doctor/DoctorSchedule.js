@@ -12,7 +12,9 @@ import { getScheduleDoctorByDate } from "../../../services/doctorServices";
 import { FormattedMessage } from "react-intl";
 import BookingModal from "./Modal/BookingModal";
 import { getSocket } from "../../../socket";
+
 const socket = getSocket();
+
 class DoctorSchedule extends Component {
   constructor(props) {
     super(props);
@@ -25,10 +27,11 @@ class DoctorSchedule extends Component {
       showBookingForm: false,
       email: "",
     };
+    this.timer = null;
   }
+
   async componentDidMount() {
     let { language, patientInfo } = this.props;
-    console.log("patientInfo", patientInfo);
     let allDay = this.getArrays(language);
 
     // Connect user to Socket.IO
@@ -62,11 +65,10 @@ class DoctorSchedule extends Component {
         +doctorId === +this.props.doctorIdFromParent &&
         +date === +this.state.selectedDay
       ) {
-        console.log("Slot updated received:", timeType);
         this.setState((prevState) => ({
           allAvailableTime: prevState.allAvailableTime.map((slot) =>
             slot.timeType === timeType
-              ? { ...slot, status: "booked" } // mark as booked
+              ? { ...slot, status: "booked" }
               : slot
           ),
         }));
@@ -96,10 +98,17 @@ class DoctorSchedule extends Component {
       allDays: allDay,
       selectedDay: allDay[0].value,
     });
+
+    // Real-time minute timer to automatically update expired status as time ticks
+    this.timer = setInterval(() => {
+      this.forceUpdate();
+    }, 60000);
   }
 
   componentWillUnmount() {
-    // Cleanup Socket.IO listeners
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
     socket.off("SLOTS_RECEIVED");
     socket.off("SLOT_UPDATED");
     socket.off("ERROR");
@@ -165,12 +174,88 @@ class DoctorSchedule extends Component {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
 
+  /**
+   * Check if a time slot has already passed in real-time
+   */
+  isSlotExpired = (item) => {
+    const { selectedDay } = this.state;
+    if (!selectedDay) return false;
+
+    const selectedMoment = moment(Number(selectedDay));
+    const now = moment();
+
+    // Past date entirely (e.g. yesterday)
+    if (selectedMoment.isBefore(now, "day")) {
+      return true;
+    }
+
+    // Future date (tomorrow, day after...) -> not expired
+    if (!selectedMoment.isSame(now, "day")) {
+      return false;
+    }
+
+    // If TODAY: check against slot start hour/minute
+    let startHour = null;
+    let startMin = 0;
+
+    const TIME_MAP = {
+      T1: 8,
+      T2: 9,
+      T3: 10,
+      T4: 11,
+      T5: 13,
+      T6: 14,
+      T7: 15,
+      T8: 16,
+    };
+
+    if (item.timeType && TIME_MAP[item.timeType] !== undefined) {
+      startHour = TIME_MAP[item.timeType];
+    } else if (item.timeTypeData && item.timeTypeData.valueVi) {
+      const match = item.timeTypeData.valueVi.match(/^(\d{1,2}):(\d{2})/);
+      if (match) {
+        startHour = parseInt(match[1], 10);
+        startMin = parseInt(match[2], 10);
+      }
+    }
+
+    if (startHour !== null) {
+      const currentHour = now.hour();
+      const currentMin = now.minute();
+
+      if (currentHour > startHour) {
+        return true;
+      }
+      if (currentHour === startHour && currentMin >= startMin) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+
   handleClickScheduleTime = (time) => {
-    const { patientInfo } = this.props;
-    if (!patientInfo) {
-      toast.warn("Bạn cần đăng nhập để tiếp tục đặt lịch!");
+    const { patientInfo, language } = this.props;
+
+    // Check if slot expired before opening modal
+    if (this.isSlotExpired(time)) {
+      toast.warn(
+        language === LANGUAGE.VI
+          ? "Khung giờ khám này đã qua. Vui lòng chọn khung giờ khác hoặc ngày tiếp theo!"
+          : "This appointment slot has passed. Please select another slot or date!"
+      );
       return;
     }
+
+    if (!patientInfo) {
+      toast.warn(
+        language === LANGUAGE.VI
+          ? "Bạn cần đăng nhập để tiếp tục đặt lịch!"
+          : "Please login to proceed with booking!"
+      );
+      return;
+    }
+
     this.setState({
       isOpenModalBooking: true,
       dataTime: time,
@@ -209,38 +294,69 @@ class DoctorSchedule extends Component {
       this.setState({ allDays: allDay, selectedDay: allDay[0].value });
     }
   }
+
   render() {
     let { allDays, allAvailableTime, dataTime, isOpenModalBooking } =
       this.state;
     let { language } = this.props;
-    console.log("allAvailableTime", allAvailableTime);
+
+    let hasAvailableSlots = false;
+
     return (
       <>
         <div className="schedule-container">
-          <div className="all-schedule">
-            <select
-              value={this.state.selectedDay}
-              onChange={(event) => this.handleChangeSelect(event)}
-            >
-              {allDays &&
-                allDays.length > 0 &&
-                allDays.map((item, index) => {
-                  return (
-                    <option value={item.value} key={index}>
-                      {item.label}
-                    </option>
-                  );
-                })}
-            </select>
+          <div className="schedule-header">
+            <div className="all-schedule">
+              <i className="far fa-calendar-check select-icon"></i>
+              <select
+                value={this.state.selectedDay}
+                onChange={(event) => this.handleChangeSelect(event)}
+              >
+                {allDays &&
+                  allDays.length > 0 &&
+                  allDays.map((item, index) => {
+                    return (
+                      <option value={item.value} key={index}>
+                        {item.label}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
           </div>
+
           <div className="all-available-time">
             <div className="text-calendar">
-              <i className="fas fa-calendar-alt">
-                <span>
-                  <FormattedMessage id="patient.detail-doctor.schedule" />
-                </span>
-              </i>
+              <i className="fas fa-calendar-alt"></i>
+              <span className="calendar-title">
+                <FormattedMessage id="patient.detail-doctor.schedule" />
+              </span>
             </div>
+
+            <div className="schedule-guide">
+              <i className="far fa-hand-point-up"></i>
+              <span>
+                <FormattedMessage id="patient.detail-doctor.choose" />
+                <FormattedMessage id="patient.detail-doctor.book-free" />
+              </span>
+            </div>
+
+            {/* Comprehensive Legend: Còn trống, Đã đặt, Đã qua giờ */}
+            <div className="schedule-legend">
+              <span className="legend-item available">
+                <span className="legend-dot available-dot"></span>
+                <FormattedMessage id="patient.detail-doctor.legend-available" />
+              </span>
+              <span className="legend-item booked">
+                <span className="legend-dot booked-dot"></span>
+                <FormattedMessage id="patient.detail-doctor.legend-booked" />
+              </span>
+              <span className="legend-item expired">
+                <span className="legend-dot expired-dot"></span>
+                <FormattedMessage id="patient.detail-doctor.legend-expired" />
+              </span>
+            </div>
+
             <div className="time-content">
               {allAvailableTime && allAvailableTime.length > 0 ? (
                 allAvailableTime.map((item, index) => {
@@ -249,26 +365,80 @@ class DoctorSchedule extends Component {
                       ? item.timeTypeData.valueVi
                       : item.timeTypeData.valueEn;
 
+                  let isBooked = item.status === "booked";
+                  let isExpired = this.isSlotExpired(item);
+
+                  if (!isBooked && !isExpired) {
+                    hasAvailableSlots = true;
+                  }
+
+                  let buttonClass = "btn-active";
+                  let iconClass = "far fa-clock slot-icon";
+                  let titleTooltip =
+                    language === LANGUAGE.VI
+                      ? "Bấm để đặt lịch khám"
+                      : "Click to book this slot";
+
+                  if (isExpired) {
+                    buttonClass = "btn-expired";
+                    iconClass = "fas fa-history slot-icon";
+                    titleTooltip =
+                      language === LANGUAGE.VI
+                        ? "Khung giờ này đã qua trong ngày"
+                        : "This appointment slot has passed today";
+                  } else if (isBooked) {
+                    buttonClass = "btn-disabled";
+                    iconClass = "fas fa-lock slot-icon";
+                    titleTooltip =
+                      language === LANGUAGE.VI
+                        ? "Khung giờ này đã kín lịch"
+                        : "This slot is booked";
+                  }
+
                   return (
                     <button
                       key={index}
-                      className={`${language === LANGUAGE.VI ? "btn-vie" : "btn-en"
-                        } ${item.status === "booked" ? "btn-disabled" : ""}`}
+                      className={`time-slot-btn ${
+                        language === LANGUAGE.VI ? "btn-vie" : "btn-en"
+                      } ${buttonClass}`}
                       onClick={() => this.handleClickScheduleTime(item)}
-                      disabled={item.status === "booked"} // disable nếu slot đã booked
+                      disabled={isBooked || isExpired}
+                      title={titleTooltip}
                     >
-                      {timeDisplay}
+                      <i className={iconClass}></i>
+                      <span className="slot-text">{timeDisplay}</span>
+                      {isExpired && (
+                        <span className="expired-badge">
+                          {language === LANGUAGE.VI ? "Đã qua" : "Passed"}
+                        </span>
+                      )}
                     </button>
                   );
                 })
               ) : (
-                <div>
-                  <FormattedMessage id="patient.detail-doctor.no-schedule" />
+                <div className="no-schedule-box">
+                  <i className="far fa-calendar-times"></i>
+                  <span>
+                    <FormattedMessage id="patient.detail-doctor.no-schedule" />
+                  </span>
                 </div>
               )}
             </div>
+
+            {/* Thông báo nếu tất cả khung giờ trong ngày đã qua hoặc kín */}
+            {allAvailableTime &&
+              allAvailableTime.length > 0 &&
+              !hasAvailableSlots && (
+                <div className="all-slots-passed-notice">
+                  <i className="fas fa-exclamation-triangle me-2"></i>
+                  <span>
+                    <FormattedMessage id="patient.detail-doctor.all-slots-passed" />
+                  </span>
+                </div>
+              )}
           </div>
         </div>
+
         <BookingModal
           dataTime={dataTime}
           isOpenModalBooking={isOpenModalBooking}
