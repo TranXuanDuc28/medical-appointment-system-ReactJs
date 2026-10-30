@@ -18,7 +18,54 @@ class ComprehensiveService extends Component {
     this.state = {};
   }
 
-  async componentDidMount() {}
+  handleServiceClick = (type) => {
+    switch (type) {
+      case "SPECIALTY":
+        this.props.navigate("/specialty");
+        break;
+      case "REMOTE":
+        this.props.navigate("/chat-patient");
+        break;
+      case "GENERAL":
+        this.props.navigate("/general-exam");
+        break;
+      case "TEST":
+        this.props.navigate("/general-exam");
+        break;
+      case "MENTAL":
+        this.props.navigate("/detail-specialty/11");
+        break;
+      case "DENTAL":
+        this.props.navigate("/detail-specialty/17");
+        break;
+      case "SURGERY":
+        this.props.navigate("/detail-specialty/15");
+        break;
+      case "DIABETES": {
+        const handbookEl = document.querySelector(".section-handbook");
+        if (handbookEl) {
+          handbookEl.scrollIntoView({ behavior: "smooth" });
+        } else {
+          this.props.navigate("/detail-specialty/12");
+        }
+        break;
+      }
+      case "HEALTH_TEST":
+        this.props.navigate("/health-test");
+        break;
+      case "NEARBY": {
+        const facilityEl = document.querySelector(".section-medical-facility");
+        if (facilityEl) {
+          facilityEl.scrollIntoView({ behavior: "smooth" });
+        } else {
+          this.props.navigate("/general-exam");
+        }
+        break;
+      }
+      default:
+        break;
+    }
+  };
 
   render() {
     return (
@@ -29,18 +76,21 @@ class ComprehensiveService extends Component {
         <div className="home-body1-content">
           <div
             className="child-content"
-            onClick={() => this.props.navigate("/specialty")}
+            onClick={() => this.handleServiceClick("SPECIALTY")}
           >
             <div className="image-container">
-              <img src={logo1} />
+              <img src={logo1} alt="Khám chuyên khoa" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.specialist-examination" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("REMOTE")}
+          >
             <div className="image-container">
-              <img src={logo2} />
+              <img src={logo2} alt="Khám từ xa" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.remote-examination" />
@@ -48,69 +98,87 @@ class ComprehensiveService extends Component {
           </div>
           <div
             className="child-content"
-            onClick={() => this.props.navigate("/general-exam")}
+            onClick={() => this.handleServiceClick("GENERAL")}
           >
             <div className="image-container">
-              <img src={logo3} />
+              <img src={logo3} alt="Khám tổng quát" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.general-examination" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("TEST")}
+          >
             <div className="image-container">
-              <img src={logo4} />
+              <img src={logo4} alt="Xét nghiệm y học" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.medical-test" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("MENTAL")}
+          >
             <div className="image-container">
-              <img src={logo5} />
+              <img src={logo5} alt="Sức khỏe tinh thần" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.mental-health" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("DENTAL")}
+          >
             <div className="image-container">
-              <img src={logo6} />
+              <img src={logo6} alt="Khám nha khoa" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.dental-examination" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("SURGERY")}
+          >
             <div className="image-container">
-              <img src={logo7} />
+              <img src={logo7} alt="Gói phẫu thuật" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.surgical-package" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("DIABETES")}
+          >
             <div className="image-container">
-              <img src={logo8} />
+              <img src={logo8} alt="Sống khỏe tiểu đường" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.healthy-living-diabetes" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("HEALTH_TEST")}
+          >
             <div className="image-container">
-              <img src={logo9} />
+              <img src={logo9} alt="Bài test sức khỏe" />
             </div>
-            <div
-              className="child-subs-title"
-              onClick={() => this.props.navigate("/health-test")}
-            >
+            <div className="child-subs-title">
               <FormattedMessage id="homepage.health-test" />
             </div>
           </div>
-          <div className="child-content">
+          <div
+            className="child-content"
+            onClick={() => this.handleServiceClick("NEARBY")}
+          >
             <div className="image-container">
-              <img src={logo10} />
+              <img src={logo10} alt="Y tế gần bạn" />
             </div>
             <div className="child-subs-title">
               <FormattedMessage id="homepage.medical-near-you" />

@@ -12,9 +12,8 @@
     "welcome": "Welcome, ",
     "schedule": "Schedule",
     "chat": "Chat ",
-     "guest": "Guest",
+    "guest": "Guest",
     "logout": "Logout",
-
     "all": "All",
     "at-home": "At home",
     "at-hospital": "At hospital",
@@ -37,7 +36,7 @@
       "manage-doctor": "Manage doctors",
       "manage-admin": "Manage admins",
       "crud": "CRUD user",
-      "crud-redux": "CRUD Redux",
+      "crud-redux": "Manage User",
       "clinic": "Clinics",
       "manage-clinic": "Manage clinics",
       "specialty": "Specialties",
@@ -119,7 +118,6 @@
     "handbook": "Handbook",
     "about": "What the media says about Booking Care",
     "specialty": "Specialty",
-      
     "comprehensive": "Comprehensive services",
     "specialist-examination": "Specialist examination",
     "remote-examination": "Remote consultation",
@@ -131,7 +129,6 @@
     "healthy-living-diabetes": "Healthy living with diabetes",
     "health-test": "Health test",
     "medical-near-you": "Healthcare near you"
-
   },
   "manage-schedule": {
     "title": "Manage doctor's examination plan",

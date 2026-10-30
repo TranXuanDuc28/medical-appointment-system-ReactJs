@@ -12,9 +12,8 @@
     "welcome": "Xin chào,",
     "schedule": "Lịch hẹn",
     "chat": "Chat",
-     "guest": "Guest",
+    "guest": "Guest",
     "logout": "Logout",
-
     "all": "Tất cả",
     "at-home": "Tại nhà",
     "at-hospital": "Tại viện",
@@ -37,7 +36,7 @@
       "manage-doctor": "Quản lý bác sĩ",
       "manage-admin": "Quản lý admin",
       "crud": "CRUD user",
-      "crud-redux": "CRUD Redux",
+      "crud-redux": "Quản lý người dùng",
       "clinic": "Phòng khám",
       "manage-clinic": "Quản lý phòng khám",
       "specialty": "Chuyên khoa",
@@ -54,7 +53,7 @@
     }
   },
   "manage-user": {
-    "title": "Quản lý người dùng Redux",
+    "title": "Quản lý người dùng",
     "add": "Thêm mới người dùng",
     "email": "Email",
     "password": "Mật khẩu",
@@ -120,7 +119,6 @@
     "handbook": "Cẩm nang",
     "about": "Truyền thông nói gì về Booking Care",
     "specialty": "Chuyên khoa",
-
     "comprehensive": "Dịch vụ toàn diện",
     "specialist-examination": "Khám chuyên khoa",
     "remote-examination": "Khám từ xa",

@@ -48,8 +48,10 @@ class HandBook extends Component {
                 <FormattedMessage id="homepage.handbook" />
               </div>
               <div>
-                <button className="btn-section">
-                  {" "}
+                <button
+                  className="btn-section"
+                  onClick={() => this.props.history.push("/handbook")}
+                >
                   <FormattedMessage id="homepage.more-infor" />
                 </button>
               </div>

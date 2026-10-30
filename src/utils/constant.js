@@ -11,6 +11,9 @@ export const path = {
   CHAT_PATIENT: "/chat-patient",
   SPECIALTY_PAGE: "/specialty",
   GENERAL_EXAM_PAGE: "/general-exam",
+  MEDICAL_FACILITY_PAGE: "/medical-facility",
+  DOCTOR_PAGE: "/doctors",
+  HANDBOOK_PAGE: "/handbook",
 };
 
 export const LANGUAGE = {

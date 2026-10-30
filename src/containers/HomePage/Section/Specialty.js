@@ -45,8 +45,10 @@ class Specialty extends Component {
             <span className="title-section">
               <FormattedMessage id="homepage.specialty-popular" />
             </span>
-            <button className="btn-section">
-              {" "}
+            <button
+              className="btn-section"
+              onClick={() => this.props.history.push("/specialty")}
+            >
               <span className="title-more-infor">
                 <FormattedMessage id="homepage.more-infor" />
               </span>

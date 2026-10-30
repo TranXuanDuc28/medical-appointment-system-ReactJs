@@ -48,8 +48,10 @@ class MedicalFacility extends Component {
               <span className="title-section">
                 <FormattedMessage id="homepage.medical-facility" />
               </span>
-              <button className="btn-section">
-                {" "}
+              <button
+                className="btn-section"
+                onClick={() => this.props.history.push("/medical-facility")}
+              >
                 <span className="title-more-infor">
                   <FormattedMessage id="homepage.more-infor" />
                 </span>

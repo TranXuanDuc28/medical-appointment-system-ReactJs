@@ -30,4 +30,10 @@ export const updatePackage = (id, data) => {
 
 export const deletePackage = (id) => {
     return axios.delete(`/api/packages/delete/${id}`);
+};
+
+export const getPackageBookingSlots = (facilityId, date, doctorId) => {
+    return axios.get('/api/packages/booking-slots', {
+        params: { facilityId, date, doctorId }
+    });
 }; 

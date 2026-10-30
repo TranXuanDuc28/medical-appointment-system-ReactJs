@@ -29,6 +29,9 @@ import DetailClinic from "./Patient/Clinic/DetailClinic";
 import PatientChat from "./Chat/PatientChat";
 import SpecialtyPage from "./Patient/Specialty/SpecialtyPage";
 import GeneralExamPage from "./Patient/GeneralExam/GeneralExamPage";
+import MedicalFacilityPage from "./Patient/Clinic/MedicalFacilityPage";
+import DoctorPage from "./Patient/Doctor/DoctorPage";
+import HandBookPage from "./Patient/Handbook/HandBookPage";
 import { useSelector } from "react-redux";
 import { getSocket } from "../socket";
 import { setOnlineDoctors } from "../store/actions/onlineDoctorsActions";
@@ -212,6 +215,11 @@ class App extends Component {
                     path={path.GENERAL_EXAM_PAGE}
                     component={GeneralExamPage}
                   />
+                  <Route
+                    path={path.MEDICAL_FACILITY_PAGE}
+                    component={MedicalFacilityPage}
+                  />
+                  <Route path={path.DOCTOR_PAGE} component={DoctorPage} />
                   <Route path={path.DETAIL_DOCTOR} component={DetailDoctors} />
                   <Route
                     path={path.DETAIL_SPECIALTY}
@@ -223,6 +231,11 @@ class App extends Component {
                     component={VerifyEmail}
                   />
                   <Route path={path.CHAT_PATIENT} component={PatientChat} />
+                  <Route
+                    path={path.HANDBOOK_PAGE}
+                    exact
+                    component={HandBookPage}
+                  />
                   <Route path="/handbook/:id" component={HandBookDetail} />
                   <Route path="/lich-hen" component={AppointmentHistory} />
 
