@@ -51,6 +51,13 @@ function useRegisterPatientSocket() {
   const patient = useSelector((state) => state.patient.patientInfo);
   React.useEffect(() => {
     const socket = getSocket();
+    // Server xác thực socket bằng cookie jwt ở bước handshake => khi trạng thái đăng nhập
+    // thay đổi phải kết nối lại để socket mang đúng danh tính.
+    const authedId = patient ? patient.id : null;
+    if (socket.__authedAs !== authedId) {
+      socket.__authedAs = authedId;
+      if (socket.connected) socket.disconnect();
+    }
     if (!socket.connected) socket.connect();
 
     // Fix: Nếu socket đã được kết nối sẵn, ta phải gửi sự kiện ngay lập tức
