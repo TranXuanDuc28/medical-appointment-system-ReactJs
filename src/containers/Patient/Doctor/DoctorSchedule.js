@@ -60,7 +60,7 @@ class DoctorSchedule extends Component {
     });
 
     // Listen for slot updates (e.g., when a slot is booked)
-    socket.on("SLOT_UPDATED", ({ doctorId, date, timeType }) => {
+    socket.on("SLOT_UPDATED", ({ doctorId, date, timeType, status }) => {
       if (
         +doctorId === +this.props.doctorIdFromParent &&
         +date === +this.state.selectedDay
@@ -68,7 +68,7 @@ class DoctorSchedule extends Component {
         this.setState((prevState) => ({
           allAvailableTime: prevState.allAvailableTime.map((slot) =>
             slot.timeType === timeType
-              ? { ...slot, status: "booked" }
+              ? { ...slot, status: status || "booked" }
               : slot
           ),
         }));
