@@ -23,6 +23,10 @@ const DoctorChat = () => {
   //console.log("user from redux:", user);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const socket = io.connect(PATH);
     socketRef.current = socket;
     socket.on("connect", () => setIsConnected(true));
@@ -98,7 +102,7 @@ const DoctorChat = () => {
   if (!user) return null;
 
   return (
-    <div className="container-fluid mt-2" style={{ height: "93vh" }}>
+    <div className="container-fluid" style={{ height: "calc(100vh - 40px)", overflow: "hidden" }}>
       <div className="row h-100">
         <div
           className="col-3 h-100 p-0"

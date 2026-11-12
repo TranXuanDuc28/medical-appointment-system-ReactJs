@@ -85,6 +85,12 @@ class HomeHeader extends Component {
       arrows: false,
     };
 
+    const currentPath = (this.props.location && this.props.location.pathname) || "";
+    const isAtHome = currentPath === "/at-home";
+    const isAtHospital = currentPath === "/medical-facility" || currentPath === "/specialty" || currentPath === "/general-exam";
+    const isHealthyLiving = currentPath.startsWith("/handbook");
+    const isAll = !isAtHome && !isAtHospital && !isHealthyLiving;
+
     return (
       <React.Fragment>
         <div className="home-header-container">
@@ -100,16 +106,28 @@ class HomeHeader extends Component {
             </div>
             <div className="center-content">
               <div className="left-child-content">
-                <div className="subs-title1 subs-title1-yellow">
+                <div
+                  className={`subs-title1 ${isAll ? "subs-title1-yellow" : ""}`}
+                  onClick={() => this.props.history.push("/home")}
+                >
                   <FormattedMessage id="homeheader.all" />
                 </div>
-                <div className="subs-title1">
+                <div
+                  className={`subs-title1 ${isAtHome ? "subs-title1-yellow" : ""}`}
+                  onClick={() => this.props.history.push("/at-home")}
+                >
                   <FormattedMessage id="homeheader.at-home" />
                 </div>
-                <div className="subs-title1">
+                <div
+                  className={`subs-title1 ${isAtHospital ? "subs-title1-yellow" : ""}`}
+                  onClick={() => this.props.history.push("/medical-facility")}
+                >
                   <FormattedMessage id="homeheader.at-hospital" />
                 </div>
-                <div className="subs-title1">
+                <div
+                  className={`subs-title1 ${isHealthyLiving ? "subs-title1-yellow" : ""}`}
+                  onClick={() => this.props.history.push("/handbook")}
+                >
                   <FormattedMessage id="homeheader.healthy-living" />
                 </div>
               </div>

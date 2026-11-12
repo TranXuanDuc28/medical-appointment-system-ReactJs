@@ -32,6 +32,7 @@ import GeneralExamPage from "./Patient/GeneralExam/GeneralExamPage";
 import MedicalFacilityPage from "./Patient/Clinic/MedicalFacilityPage";
 import DoctorPage from "./Patient/Doctor/DoctorPage";
 import HandBookPage from "./Patient/Handbook/HandBookPage";
+import AtHomeCarePage from "./Patient/AtHome/AtHomeCarePage";
 import { useSelector } from "react-redux";
 import { getSocket } from "../socket";
 import { setOnlineDoctors } from "../store/actions/onlineDoctorsActions";
@@ -193,7 +194,7 @@ class App extends Component {
       <Fragment>
         <Router history={history}>
           <div className="main-container">
-            <span className="content-container">
+            <div className="content-container">
               <CustomScrollbars style={{ height: "100vh", width: "100%" }}>
                 <Switch>
                   <Route path={path.HOME} exact component={Home} />
@@ -238,11 +239,12 @@ class App extends Component {
                   />
                   <Route path="/handbook/:id" component={HandBookDetail} />
                   <Route path="/lich-hen" component={AppointmentHistory} />
+                  <Route path={path.AT_HOME_PAGE} component={AtHomeCarePage} />
 
                   <Route path="/health-test" component={AppQuestion} />
                 </Switch>
               </CustomScrollbars>
-            </span>
+            </div>
             <AIAssistant />
 
             {/* <ToastContainer

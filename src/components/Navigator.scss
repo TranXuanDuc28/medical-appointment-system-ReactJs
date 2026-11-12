@@ -52,6 +52,7 @@
             -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
             color: $text-in-light;
             position: absolute;
+            z-index: 1001;
             padding: 0;
             
             @include respond-to(sm) {
@@ -86,6 +87,7 @@
                     box-shadow: 2px 2px 4px 0 $box-shadow-color;
                     -webkit-box-shadow: 2px 2px 4px 0 $box-shadow-color;
                     position: absolute;
+            z-index: 1001;
                     top: 0;
                     left: 205px;
                     padding: 0;
@@ -151,6 +153,7 @@
                 .icon-right {
                     display: block;
                     position: absolute;
+            z-index: 1001;
                     top: 0;
                     right: 10px;
                     

@@ -46,8 +46,14 @@
       "manage-question": "Health questions"
     },
     "doctor": {
+      "doctor-menu": "Doctor",
       "manage-schedule": "Manage Doctor's schedule",
       "manage-patient": "Manage patients",
+      "chat-patient": "Manage message"
+    },
+    "cashier": {
+      "cashier-menu": "Cashier",
+      "manage-payment": "Manage payment",
       "chat-patient": "Manage message"
     }
   },

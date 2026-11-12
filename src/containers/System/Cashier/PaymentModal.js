@@ -285,7 +285,7 @@ class PaymentModal extends Component {
               className={`method-tab-btn ${activeTab === "CASH" ? "active" : ""}`}
               onClick={() => this.setState({ activeTab: "CASH" })}
             >
-              <i className="fa fa-money me-2"></i>
+              <i className="fas fa-money-bill-wave me-2"></i>
               <span>1. Tiền mặt tại quầy</span>
             </button>
             <button
@@ -546,7 +546,7 @@ class PaymentModal extends Component {
 
         {/* Modal Footer */}
         <div className="payment-modal-footer">
-          {activeTab === "CASH" && (
+          {activeTab === "CASH" ? (
             <button
               className="btn-confirm-pay"
               disabled={isUnderpaid}
@@ -554,6 +554,15 @@ class PaymentModal extends Component {
             >
               <i className="fa fa-check-circle me-2"></i>
               Xác nhận đã thu tiền mặt
+            </button>
+          ) : (
+            <button
+              className="btn-confirm-pay"
+              style={{ backgroundColor: "#0284c7", borderColor: "#0284c7" }}
+              onClick={this.handleConfirmQRPaymentManual}
+            >
+              <i className="fa fa-qrcode me-2"></i>
+              Xác nhận đã nhận chuyển khoản QR
             </button>
           )}
           <button className="btn-cancel-modal" onClick={closePaymentModal}>

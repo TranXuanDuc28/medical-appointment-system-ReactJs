@@ -1,13 +1,14 @@
 @import "../../styles/common.scss";
 
 .header-container {
-    z-index: 99;
+    z-index: 1000;
     display: flex;
     justify-content: space-between;
     background-color: $colormain;
     color: $common-text-color;
     height: 40px;
-    position: relative;
+    position: sticky;
+    top: 0;
     
     @include respond-to(sm) {
         height: 50px;

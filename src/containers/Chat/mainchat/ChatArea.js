@@ -2,16 +2,15 @@ import { useEffect, useRef, useState } from "react";
 import dayjs from "dayjs";
 import "../sidebar/index.scss";
 const ChatArea = ({ allMsg, user, handleDelete, loadMoreMsg }) => {
-  const bottomRef = useRef(null);
+  const chatContainerRef = useRef(null);
   const [previewImg, setPreviewImg] = useState(null);
   useEffect(() => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: "smooth" });
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
     }
   }, [allMsg]);
   return (
-    <div
-      className="flex-grow-1 overflow-auto bg-light"
+    <div ref={chatContainerRef} className="flex-grow-1 overflow-auto bg-light"
       style={{ minHeight: 0 }}
     >
       {/* <div className="sticky-top bg-light pb-2" style={{ zIndex: 2 }}>
@@ -175,7 +174,7 @@ const ChatArea = ({ allMsg, user, handleDelete, loadMoreMsg }) => {
           );
         })}
 
-        <div ref={bottomRef} />
+        <div />
       </ul>
       {/* Modal phóng to ảnh */}
       {previewImg && (

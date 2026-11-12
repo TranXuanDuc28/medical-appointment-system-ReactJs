@@ -3,14 +3,6 @@ export const adminMenu = [
     //Quan li nguoi dung
     name: "menu.admin.manage-user",
     menus: [
-      // {
-      //   name: "menu.admin.crud",
-      //   link: "/system/user-manage",
-      //   // subMenus: [
-      //   //     { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
-      //   //     { name: 'menu.system.system-administrator.user-redux', link: '/system/user-redux' },
-      //   // ]
-      // },
       {
         name: "menu.admin.crud-redux",
         link: "/system/user-redux",
@@ -23,9 +15,8 @@ export const adminMenu = [
         name: "menu.admin.manage-specialty",
         link: "/system/manage-specialty",
       },
-      // { name: 'menu.system.system-parameter.header', link: '/system/system-parameter' },
       {
-        //quản lý kế hoạc khám bệnh của bác sĩ
+        //quản lý kế hoạch khám bệnh của bác sĩ
         name: "menu.doctor.manage-schedule",
         link: "/doctor/manage-schedule",
       },
@@ -78,15 +69,15 @@ export const adminMenu = [
 ];
 export const doctorMenu = [
   {
-    name: "menu.admin.manage-user",
+    name: "menu.doctor.doctor-menu",
     menus: [
-      {
-        name: "menu.doctor.manage-schedule",
-        link: "/doctor/manage-schedule",
-      },
       {
         name: "menu.doctor.manage-patient",
         link: "/doctor/manage-patient",
+      },
+      {
+        name: "menu.doctor.manage-schedule",
+        link: "/doctor/manage-schedule",
       },
       {
         name: "menu.doctor.chat-patient",
@@ -97,10 +88,10 @@ export const doctorMenu = [
 ];
 export const cashierMenu = [
   {
-    name: "menu.admin.manage-user",
+    name: "menu.cashier.cashier-menu",
     menus: [
       {
-        name: "menu.doctor.manage-patient",
+        name: "menu.cashier.manage-payment",
         link: "/system/manage-payment",
       },
       {

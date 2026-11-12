@@ -1,28 +1,49 @@
 @import "../../styles/common.scss";
-.slick-prev {
-  margin-left: -15px !important;
-  height: 40px !important;
-  width: 44px !important;
-  border-radius: 10px;
-  border: 1px solid aqua;
-  outline: none;
-  position: absolute;
-  z-index: 1;
-  top: 50%; /* Đặt nút giữa theo chiều dọc */
-  transform: translateY(-50%); /* Chỉnh lại vị trí giữa theo chiều dọc */
-  background-color: white;
-}
+.slick-prev,
 .slick-next {
-  height: 40px !important;
-  width: 44px !important;
-  border-radius: 10px;
-  border: 1px solid aqua;
-  outline: none;
-  position: absolute;
-  top: 50%; /* Đặt nút giữa theo chiều dọc */
-  transform: translateY(-50%); /* Chỉnh lại vị trí giữa theo chiều dọc */
-  margin-right: -20px !important; /* Đặt vị trí của nút next ở bên phải */
-  background-color: white;
+  width: 42px !important;
+  height: 42px !important;
+  border-radius: 50% !important;
+  border: 1px solid #e2e8f0 !important;
+  outline: none !important;
+  position: absolute !important;
+  z-index: 5 !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  transition: all 0.25s ease !important;
+
+  &:hover {
+    background-color: #45c3d2 !important;
+    border-color: #45c3d2 !important;
+    box-shadow: 0 6px 18px rgba(69, 195, 210, 0.4) !important;
+    transform: translateY(-50%) scale(1.08) !important;
+
+    i {
+      color: #ffffff !important;
+    }
+  }
+
+  i {
+    color: #0284c7 !important;
+    font-size: 16px !important;
+    transition: color 0.2s ease !important;
+  }
+}
+
+.slick-prev {
+  left: -18px !important;
+  margin-left: 0 !important;
+}
+
+.slick-next {
+  right: -18px !important;
+  margin-right: 0 !important;
 }
 
 @include respond-to(md) {
@@ -51,7 +72,7 @@
   }
 }
 .slick-slide {
-  padding: 0px 15px 30px 15px;
+  padding: 8px 10px 24px 10px;
 }
 .slick-disable {
   display: none !important;
@@ -79,26 +100,34 @@
   }
   .section-content {
     .section-header {
-      height: 60px;
+      height: auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 100px 0px 30px 0px;
-      padding-top: 40px;
+      margin: 45px 0px 20px 0px;
+      padding-top: 10px;
 
       .title-section {
-        font-size: 22px;
-        font-weight: 550;
-        text-align: center;
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        text-align: left;
       }
       .btn-section {
-        padding: 10px 15px;
-        background-color: #daf3f6;
-        font-size: 17px;
-        font-weight: 550;
-        border-radius: 15px;
+        padding: 8px 18px;
+        background-color: #e0f2fe;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 20px;
         border: none;
-        color: #4099a4;
+        color: #0284c7;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: #0284c7;
+          color: #ffffff;
+        }
       }
       @include respond-to(xs) {
         .title-section {
@@ -138,23 +167,68 @@
       }
 
       .section-customize {
-        height: 300px;
-        // margin: 100px 0px;
-        padding: 20px 0px;
-        @include respond-to(xs) {
-          height: 200px;
-          width: 100%;
-          padding: 10px 0;
+        height: auto !important;
+        min-height: 210px;
+        padding: 0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &.customize-specialty {
+          border: 1px solid #e2e8f0;
+          border-radius: 18px;
+          background-color: #ffffff !important;
+          padding: 14px 14px 18px 14px;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          text-align: center !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          height: auto !important;
+          min-height: 210px;
+          overflow: hidden;
+
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -4px rgba(69, 195, 210, 0.25);
+            border-color: #45c3d2;
+
+            .title-section {
+              color: #0284c7 !important;
+            }
+
+            .bg-image.section-specialty {
+              transform: scale(1.05);
+            }
+          }
         }
-        @include respond-to(sm) {
-          height: 200px;
-          width: 100%;
-          padding: 10px 0;
-        }
-        @include respond-to(md) {
-          height: 200px;
-          width: 100%;
-          padding: 10px 0;
+
+        &.customize-medical-facility {
+          border: 1px solid #e2e8f0;
+          border-radius: 18px;
+          background-color: #ffffff !important;
+          padding: 14px 14px 16px 14px;
+          display: flex !important;
+          flex-direction: column !important;
+          align-items: center !important;
+          justify-content: flex-start !important;
+          text-align: center !important;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          height: auto !important;
+          min-height: 230px;
+          overflow: hidden;
+
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -4px rgba(69, 195, 210, 0.25);
+            border-color: #45c3d2;
+
+            .title-section {
+              color: #0284c7 !important;
+            }
+          }
         }
 
         &.customize-outstanding-doctor {
@@ -163,113 +237,100 @@
           justify-content: center !important;
           align-items: center !important;
           cursor: pointer;
-          @include respond-to(xs) {
-            padding: 6px 0 10px 0;
-            height: auto;
-          }
-          @include respond-to(sm) {
-            padding: 6px 0 10px 0;
-            height: auto;
-          }
-          @include respond-to(md) {
-            padding: 6px 0 10px 0;
-            height: auto;
-          }
-        }
-        &.customize-specialty {
-          border: 1px solid #cae3e6;
-          border-radius: 20px;
-          background-color: #fffefc !important;
-          @include respond-to(xs) {
-            margin: 0 auto;
-          }
+          border: 1px solid #e2e8f0;
+          border-radius: 18px;
+          background-color: #ffffff !important;
+          padding: 20px 14px 18px 14px;
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          height: auto !important;
+          min-height: 250px;
 
-          @include respond-to(sm) {
-            margin: 0 auto;
-          }
-          @include respond-to(md) {
-            margin: 0 auto;
-          }
-        }
-        &.customize-medical-facility {
-          border: 1px solid #cae3e6;
-          border-radius: 20px;
-          @include respond-to(xs) {
-            margin: 0 auto;
-          }
-          @include respond-to(sm) {
-            margin: 0 auto;
-          }
-          @include respond-to(md) {
-            margin: 0 auto;
+          &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px -4px rgba(69, 195, 210, 0.25);
+            border-color: #45c3d2;
+
+            .title-section {
+              color: #0284c7 !important;
+            }
           }
         }
+
         .bg-image {
           background-position: center center !important;
           background-repeat: no-repeat !important;
           background-size: contain !important;
-          @include respond-to(md) {
-            background-size: contain !important;
-          }
-          @include respond-to(sm) {
-            background-size: contain !important;
-          }
-
-          @include respond-to(xs) {
-            background-size: contain !important;
-          }
 
           &.section-specialty {
-            background: url("../../assets/images/101713-tim-mach.png");
-            height: 137px;
-            border-radius: 25px;
+            width: 100% !important;
+            height: 125px !important;
+            border-radius: 14px;
+            background-color: #f8fafc;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+            background-size: contain !important;
+            transition: transform 0.3s ease;
+            margin-bottom: 12px;
+            padding: 8px;
           }
+
           &.section-medical-facility {
-            background: url("../../assets/images/152704logo-bvcr-moi.jpg");
-            height: 180px;
+            width: 100%;
+            height: 135px;
+            border-radius: 12px;
+            background-size: cover !important;
+            background-position: center center !important;
+            margin-bottom: 10px;
           }
+
           &.section-outstanding-doctor {
-            width: 168px;
-            height: 168px;
+            width: 150px;
+            height: 150px;
             background: url("../../assets/images/103447-bs-hong-anh.jpg");
             border-radius: 50%;
-          }
-          @include respond-to(xs) {
-            &.section-outstanding-doctor {
+            margin-bottom: 10px;
+
+            @include respond-to(xs) {
               height: 120px !important;
               width: 120px !important;
             }
-          }
-          @include respond-to(sm) {
-            &.section-outstanding-doctor {
+            @include respond-to(sm) {
               height: 120px !important;
               width: 120px !important;
             }
-          }
-          @include respond-to(md) {
-            &.section-outstanding-doctor {
-              height: 120px !important;
-              width: 120px !important;
+            @include respond-to(md) {
+              height: 130px !important;
+              width: 130px !important;
             }
           }
+
           &.section-handlebook {
-            background: url("../../assets/images/HandBook/144434-dia-chi-kham-chua-benh-cong-veo-cot-song-tre-em.png");
-            width: 278px;
-            height: 180px;
-            background-size: contain !important;
+            width: 100%;
+            height: 160px;
+            border-radius: 12px;
+            background-size: cover !important;
+            background-position: center !important;
+            margin-bottom: 10px;
           }
         }
 
         .title-section {
-          font-weight: 550;
-          text-align: center;
-          font-size: 17px;
-          padding: 20px 0px;
+          font-weight: 700 !important;
+          text-align: center !important;
+          font-size: 16px !important;
+          color: #1e293b !important;
+          padding: 4px 6px 0 6px !important;
+          margin: 0 !important;
+          width: 100% !important;
+          line-height: 1.4 !important;
+          transition: color 0.2s ease !important;
+
           @include respond-to(xs) {
-            font-size: 15px !important;
+            font-size: 14px !important;
           }
           @include respond-to(sm) {
-            font-size: 15px !important;
+            font-size: 14px !important;
           }
           @include respond-to(md) {
             font-size: 15px !important;
@@ -382,4 +443,75 @@
   color: black; /* đổi màu khi hover */
   transform: scale(1.2); /* phóng to nhẹ */
   //   transition: all 0.2s ease;
+}
+
+
+// ==========================================
+// SCROLL REVEAL ANIMATIONS (HIỆU ỨNG XỔ CHỮ KHI CUỘN)
+// ==========================================
+.homepage-container {
+  overflow-x: hidden;
+
+  // Trạng thái ban đầu của mỗi section khi chưa cuộn tới
+  .scroll-reveal-item {
+    opacity: 0;
+    transform: translateY(45px);
+    transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+
+    // Chữ tiêu đề bên trong section: ban đầu ẩn và thụt xuống
+    .title-section,
+    .subs-title,
+    .section-about .section-header {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+                  transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+      display: inline-block;
+    }
+
+    // Nút xem thêm
+    .btn-section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.15s,
+                  transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    }
+
+    // Nội dung body / card slider xổ ra sau một nhịp (Staggered effect)
+    .section-body,
+    .home-body1-content,
+    .section-about-content .section-body {
+      opacity: 0;
+      transform: translateY(35px);
+      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.2s,
+                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+    }
+
+    // KHI CUỘN TỚI: TẤT CẢ ĐỒNG LOẠT XỔ RA MƯỢT MÀ
+    &.reveal-visible {
+      opacity: 1 !important;
+      transform: translateY(0) !important;
+
+      .title-section,
+      .subs-title,
+      .section-about .section-header {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .btn-section {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+
+      .section-body,
+      .home-body1-content,
+      .section-about-content .section-body {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+      }
+    }
+  }
 }

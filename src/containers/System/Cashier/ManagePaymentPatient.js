@@ -506,7 +506,7 @@ class ManagePaymentPatient extends Component {
 
           <div className="stat-card stat-revenue">
             <div className="stat-icon revenue">
-              <i className="fa fa-money"></i>
+              <i className="fas fa-money-bill-wave"></i>
             </div>
             <div className="stat-content">
               <div className="stat-label">Tổng doanh thu thực thu</div>
@@ -603,7 +603,7 @@ class ManagePaymentPatient extends Component {
               title="Làm mới dữ liệu"
               onClick={this.getDataPatient}
             >
-              <i className="fa fa-refresh"></i>
+              <i className="fas fa-sync-alt"></i>
             </button>
           </div>
         </div>
@@ -723,7 +723,7 @@ class ManagePaymentPatient extends Component {
                                   className={`fa ${
                                     item.bookingData?.paymentMethod === "TRANSFER_QR"
                                       ? "fa-qrcode text-info"
-                                      : "fa-money text-success"
+                                      : "fa-money-bill-wave text-success"
                                   } me-1`}
                                 ></i>
                                 {paymentMethod}
@@ -739,7 +739,7 @@ class ManagePaymentPatient extends Component {
                               </span>
                             ) : (
                               <span className="status-badge pending">
-                                <i className="fa fa-clock-o me-1"></i> Chờ thanh toán
+                                <i className="fas fa-clock me-1"></i> Chờ thanh toán
                               </span>
                             )}
                           </td>

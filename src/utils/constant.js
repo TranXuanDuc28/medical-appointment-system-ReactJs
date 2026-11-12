@@ -14,6 +14,7 @@ export const path = {
   MEDICAL_FACILITY_PAGE: "/medical-facility",
   DOCTOR_PAGE: "/doctors",
   HANDBOOK_PAGE: "/handbook",
+  AT_HOME_PAGE: "/at-home",
 };
 
 export const LANGUAGE = {

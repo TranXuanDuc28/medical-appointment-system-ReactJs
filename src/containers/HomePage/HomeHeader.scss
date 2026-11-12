@@ -141,7 +141,16 @@
         .subs-title1 {
           font-weight: 500;
           font-size: 17px;
-          padding: 7px 10px;
+          padding: 7px 14px;
+          cursor: pointer;
+          user-select: none;
+          border-radius: 25px;
+          transition: all 0.2s ease-in-out;
+
+          &:hover {
+            color: #1a73e8;
+            background-color: rgba(69, 195, 210, 0.12);
+          }
 
           @include respond-to(md) {
             font-size: 16px !important;
@@ -160,6 +169,12 @@
           background-color: rgb(255, 196, 25);
           border-radius: 25px;
           color: white;
+          font-weight: 600;
+
+          &:hover {
+            background-color: rgb(240, 180, 20);
+            color: white;
+          }
         }
       }
 
@@ -421,99 +436,109 @@
 
 .home-body1-container {
   width: 100%;
-  padding: 50px 10% 0px 10%;
+  padding: 40px 10% 0px 10%;
 
   @include respond-to(md) {
-    padding: 45px 5% 0px 5%;
+    padding: 35px 5% 0px 5%;
   }
 
   @include respond-to(sm) {
-    padding: 40px 5% 0px 5%;
+    padding: 30px 5% 0px 5%;
   }
   @include respond-to(xs) {
-    padding: 0px 2% 0px 2%;
+    padding: 20px 3% 0px 3%;
   }
 
   .subs-title {
     font-weight: bold;
-    font-size: 20px;
-    margin: 25px 0px;
+    font-size: 22px;
+    margin: 20px 0px;
+    color: #1e293b;
 
     @include respond-to(md) {
-      font-size: 19px;
-      margin: 24px 0px;
+      font-size: 20px;
+      margin: 18px 0px;
     }
     @include respond-to(sm) {
       font-size: 18px;
-      margin: 22px 0px;
+      margin: 16px 0px;
     }
     @include respond-to(xs) {
       font-size: 17px;
-      margin: 20px 0px;
+      margin: 15px 0px;
     }
   }
 
   .home-body1-content {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
 
-    @include respond-from(lg) {
-      justify-content: center;
+    @include respond-to(lg) {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
     }
+
     @include respond-to(md) {
-      justify-content: center;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
     }
+
     @include respond-to(sm) {
-      flex-direction: column;
-      align-items: center;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
+
     @include respond-to(xs) {
-      flex-direction: column;
-      align-items: center;
+      grid-template-columns: 1fr;
+      gap: 10px;
     }
 
     .child-content {
-      width: 580px;
-      border-radius: 30px;
+      width: 100%;
+      border-radius: 20px;
       border: 1px solid rgb(226, 226, 226);
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding: 15px 30px;
-      margin: 20px 0px;
+      padding: 10px 16px;
+      margin: 0;
       cursor: pointer;
-      transition: all 0.3s ease;
+      background-color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+      transition: all 0.25s ease;
+      min-height: 72px;
+
       @include respond-to(lg) {
-        width: 360px;
-        padding: 13px 25px;
-        margin: 19px 10px;
+        width: 100%;
+        padding: 8px 12px;
+        margin: 0;
       }
 
       @include respond-to(md) {
-        width: 360px;
-        padding: 13px 25px;
-        margin: 19px 10px;
+        width: 100%;
+        padding: 10px 14px;
+        margin: 0;
       }
 
       @include respond-to(sm) {
-        width: 360px;
-        padding: 12px 20px;
-        margin: 18px 0px;
-        border-radius: 25px;
+        width: 100%;
+        padding: 8px 12px;
+        margin: 0;
+        border-radius: 16px;
       }
+
       @include respond-to(xs) {
         width: 100%;
-        padding: 10px 15px;
-        margin: 15px 0px;
-        border-radius: 20px;
+        padding: 10px 14px;
+        margin: 0;
+        border-radius: 16px;
       }
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        border-color: #4099a4;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        border-color: #45c3d2;
       }
 
       .image-container {
@@ -524,56 +549,78 @@
           rgb(254, 253, 251),
           rgb(255, 255, 255)
         );
-        padding: 15px;
+        padding: 6px;
+        border-radius: 12px;
         text-align: center;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
 
         @include respond-to(md) {
-          padding: 13px;
+          padding: 6px;
         }
 
         @include respond-to(sm) {
-          padding: 12px;
+          padding: 5px;
         }
+
         @include respond-to(xs) {
-          padding: 10px;
+          padding: 5px;
         }
 
         img {
-          width: 60px;
-          height: 60px;
+          width: 42px;
+          height: 42px;
+          object-fit: contain;
+
+          @include respond-to(lg) {
+            width: 38px;
+            height: 38px;
+          }
 
           @include respond-to(md) {
-            width: 55px;
-            height: 55px;
+            width: 40px;
+            height: 40px;
           }
+
           @include respond-to(sm) {
-            width: 50px;
-            height: 50px;
+            width: 36px;
+            height: 36px;
           }
+
           @include respond-to(xs) {
-            width: 45px;
-            height: 45px;
+            width: 34px;
+            height: 34px;
           }
         }
       }
 
       .child-subs-title {
-        font-weight: bold;
-        font-size: 20px;
-        margin-left: 40px;
+        font-weight: 600;
+        font-size: 15px;
+        margin-left: 12px;
+        color: #1e293b;
+        line-height: 1.35;
+
+        @include respond-to(lg) {
+          font-size: 13.5px !important;
+          margin-left: 10px;
+        }
 
         @include respond-to(md) {
-          font-size: 18px !important;
-          margin-left: 30px;
+          font-size: 14.5px !important;
+          margin-left: 12px;
         }
+
         @include respond-to(sm) {
-          font-size: 17px !important;
-          margin-left: 25px;
+          font-size: 13.5px !important;
+          margin-left: 10px;
         }
 
         @include respond-to(xs) {
-          font-size: 16px !important;
-          margin-left: 20px;
+          font-size: 13px !important;
+          margin-left: 10px;
         }
       }
     }

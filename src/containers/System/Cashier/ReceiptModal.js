@@ -205,7 +205,7 @@ class ReceiptModal extends Component {
             <div className="hospital-header">
               <div className="hospital-left">
                 <div className="hospital-brand">
-                  <i className="fa fa-hospital-o me-2"></i>
+                  <i className="fas fa-hospital me-2"></i>
                   <span>HỆ THỐNG Y TẾ BOOKINGCARE</span>
                 </div>
                 <div className="hospital-sub">{clinicName}</div>

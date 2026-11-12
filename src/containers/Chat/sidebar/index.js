@@ -17,7 +17,7 @@ const SideBar = ({ user, onlineUsers, roomData, setRoomData, setAllMsg }) => {
     const receiverId = selectedUser.id;
     const currentUserId = user.id;
     axios
-      .get(`http://${PATH}/api/get-msg/${receiverId}?userId=${currentUserId}`)
+      .get(`${PATH}/api/get-msg/${receiverId}?userId=${currentUserId}`)
       .then((res) => {
         console.log("res aa", res);
         setAllMsg(res.data.data);
