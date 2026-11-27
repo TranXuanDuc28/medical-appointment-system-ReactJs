@@ -4,7 +4,8 @@ let socket;
 
 export function getSocket() {
   if (!socket) {
-    socket = io(PATH, { autoConnect: false });
+    // withCredentials: gửi cookie httpOnly `jwt` khi handshake để server xác thực socket
+    socket = io(PATH, { autoConnect: false, withCredentials: true });
   }
   return socket;
 }
